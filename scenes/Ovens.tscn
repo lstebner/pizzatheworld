@@ -1,0 +1,113 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scenes/Ovens.gd" type="Script" id=1]
+[ext_resource path="res://scenes/OvenItemSlot.tscn" type="PackedScene" id=2]
+
+[node name="Ovens" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="temperature_controls" type="Node2D" parent="."]
+position = Vector2( 37.3443, 35.0505 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="temperature_controls"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PowerOn" type="Button" parent="temperature_controls/VBoxContainer"]
+margin_right = 140.0
+margin_bottom = 20.0
+text = "power on"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PowerOff" type="Button" parent="temperature_controls/VBoxContainer"]
+margin_top = 24.0
+margin_right = 140.0
+margin_bottom = 44.0
+text = "power off"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="temperature_controls/VBoxContainer"]
+margin_top = 48.0
+margin_right = 140.0
+margin_bottom = 68.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DecreaseTemp" type="Button" parent="temperature_controls/VBoxContainer/HBoxContainer"]
+margin_right = 70.0
+margin_bottom = 20.0
+text = "decrease"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IncreaseTemp" type="Button" parent="temperature_controls/VBoxContainer/HBoxContainer"]
+margin_left = 74.0
+margin_right = 140.0
+margin_bottom = 20.0
+text = "increase"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CurrentTemp" type="Label" parent="temperature_controls/VBoxContainer"]
+margin_top = 72.0
+margin_right = 140.0
+margin_bottom = 86.0
+text = "current temp"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="status" type="Node2D" parent="."]
+
+[node name="RichTextLabel" type="RichTextLabel" parent="status"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Leave" type="Button" parent="."]
+margin_left = 963.079
+margin_top = 15.5564
+margin_right = 1009.08
+margin_bottom = 35.5564
+text = "leave"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CookBelt" type="Node2D" parent="."]
+position = Vector2( 342.749, 213.591 )
+
+[node name="ColorRect" type="ColorRect" parent="CookBelt"]
+margin_right = 335.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="pizza0" parent="CookBelt" instance=ExtResource( 2 )]
+position = Vector2( 10.8284, 0 )
+
+[node name="pizza1" parent="CookBelt" instance=ExtResource( 2 )]
+position = Vector2( 98.4794, 0 )
+
+[node name="pizza2" parent="CookBelt" instance=ExtResource( 2 )]
+position = Vector2( 190.625, 0 )
+
+[node name="pizza3" parent="CookBelt" instance=ExtResource( 2 )]
+position = Vector2( 273.032, 0 )
+
+[node name="ChangeTempTimer" type="Timer" parent="."]
+wait_time = 0.25

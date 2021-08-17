@@ -1,0 +1,102 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scenes/PizzaShop.gd" type="Script" id=1]
+[ext_resource path="res://scenes/PizzaStation.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/Ovens.tscn" type="PackedScene" id=3]
+
+[node name="PizzaShop" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="BackgroundRect" type="ColorRect" parent="."]
+margin_right = 1024.0
+margin_bottom = 600.0
+color = Color( 0.905882, 0.905882, 0.905882, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CounterButton" type="Button" parent="." groups=[
+"shop_location_buttons",
+]]
+margin_left = 59.0
+margin_top = 291.0
+margin_right = 156.0
+margin_bottom = 311.0
+text = "go to counter"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PhoneButton" type="Button" parent="." groups=[
+"shop_location_buttons",
+]]
+visible = false
+margin_left = 156.0
+margin_top = 549.0
+margin_right = 257.0
+margin_bottom = 569.0
+text = "answer phone"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PizzaStationButton" type="Button" parent="." groups=[
+"shop_location_buttons",
+]]
+margin_left = 477.0
+margin_top = 547.0
+margin_right = 578.0
+margin_bottom = 567.0
+text = "go to pizza station"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OvensButton" type="Button" parent="." groups=[
+"shop_location_buttons",
+]]
+margin_left = 871.0
+margin_top = 303.0
+margin_right = 1000.0
+margin_bottom = 323.0
+text = "go to ovens"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OfficeButton" type="Button" parent="." groups=[
+"shop_location_buttons",
+]]
+margin_left = 875.0
+margin_top = 526.0
+margin_right = 1004.0
+margin_bottom = 546.0
+text = "go to office"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DeliveriesButton" type="Button" parent="." groups=[
+"shop_location_buttons",
+]]
+visible = false
+margin_left = 835.0
+margin_top = 22.0
+margin_right = 964.0
+margin_bottom = 42.0
+text = "deliveries"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="locations" type="Node2D" parent="."]
+
+[node name="PizzaStation" parent="locations" instance=ExtResource( 2 )]
+position = Vector2( 1544.32, 265.872 )
+
+[node name="Ovens" parent="locations" instance=ExtResource( 3 )]
+position = Vector2( 1320.02, 1126.95 )
+
+[node name="CurrentSceneCamera" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
