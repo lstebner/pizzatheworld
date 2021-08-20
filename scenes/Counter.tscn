@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scenes/Counter.gd" type="Script" id=1]
+[ext_resource path="res://scenes/POS.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/DialogBubble.tscn" type="PackedScene" id=3]
+
+[node name="Counter" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="LeaveButton" type="Button" parent="."]
+margin_left = 961.811
+margin_top = 16.8581
+margin_right = 1007.81
+margin_bottom = 36.8581
+text = "leave"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CustomerDialog" parent="." instance=ExtResource( 3 )]
+margin_left = 24.923
+margin_top = 60.8122
+margin_right = 224.923
+margin_bottom = 99.8122
+
+[node name="POS" parent="." instance=ExtResource( 2 )]
+position = Vector2( 306.699, 133.821 )
+
+[node name="NextCustomerButton" type="Button" parent="."]
+margin_left = 29.9077
+margin_top = 20.9354
+margin_right = 134.908
+margin_bottom = 40.9354
+text = "next customer"
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -1,0 +1,317 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scenes/POS.gd" type="Script" id=1]
+
+[node name="POS" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 680.0
+margin_bottom = 420.0
+color = Color( 0.607843, 0.807843, 0.537255, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="version" type="Label" parent="."]
+margin_right = 136.0
+margin_bottom = 14.0
+text = "pizzapos-v0.1-nightly"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="size" type="Node2D" parent="."]
+position = Vector2( 69.2063, 70.3793 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="size"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="size/VBoxContainer"]
+margin_right = 158.0
+margin_bottom = 14.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "select size"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridContainer" type="GridContainer" parent="size/VBoxContainer"]
+margin_top = 18.0
+margin_right = 158.0
+margin_bottom = 38.0
+custom_constants/vseparation = 10
+custom_constants/hseparation = 10
+columns = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Six" type="Button" parent="size/VBoxContainer/GridContainer"]
+margin_right = 26.0
+margin_bottom = 20.0
+text = "6\""
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Ten" type="Button" parent="size/VBoxContainer/GridContainer"]
+margin_left = 36.0
+margin_right = 70.0
+margin_bottom = 20.0
+text = "10\""
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Twelve" type="Button" parent="size/VBoxContainer/GridContainer"]
+margin_left = 80.0
+margin_right = 114.0
+margin_bottom = 20.0
+text = "12\""
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Fourteen" type="Button" parent="size/VBoxContainer/GridContainer"]
+margin_left = 124.0
+margin_right = 158.0
+margin_bottom = 20.0
+text = "14\""
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="sauce" type="Node2D" parent="."]
+position = Vector2( 72.4009, 153.597 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="sauce"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="sauce/VBoxContainer"]
+margin_right = 188.0
+margin_bottom = 14.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "select sauce"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridContainer" type="GridContainer" parent="sauce/VBoxContainer"]
+margin_top = 18.0
+margin_right = 188.0
+margin_bottom = 38.0
+custom_constants/hseparation = 10
+columns = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Marinara" type="Button" parent="sauce/VBoxContainer/GridContainer"]
+margin_right = 68.0
+margin_bottom = 20.0
+text = "marinara"
+
+[node name="Alfredo" type="Button" parent="sauce/VBoxContainer/GridContainer"]
+margin_left = 78.0
+margin_right = 134.0
+margin_bottom = 20.0
+text = "alfredo"
+
+[node name="None" type="Button" parent="sauce/VBoxContainer/GridContainer"]
+margin_left = 144.0
+margin_right = 188.0
+margin_bottom = 20.0
+text = "none"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="cheese" type="Node2D" parent="."]
+position = Vector2( 73.7308, 231.895 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="cheese"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="cheese/VBoxContainer"]
+margin_right = 161.0
+margin_bottom = 14.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "select cheese"
+
+[node name="GridContainer" type="GridContainer" parent="cheese/VBoxContainer"]
+margin_top = 18.0
+margin_right = 161.0
+margin_bottom = 38.0
+custom_constants/hseparation = 10
+columns = 4
+
+[node name="Normal" type="Button" parent="cheese/VBoxContainer/GridContainer"]
+margin_right = 57.0
+margin_bottom = 20.0
+text = "normal"
+
+[node name="Light" type="Button" parent="cheese/VBoxContainer/GridContainer"]
+margin_left = 67.0
+margin_right = 107.0
+margin_bottom = 20.0
+text = "light"
+
+[node name="Extra" type="Button" parent="cheese/VBoxContainer/GridContainer"]
+margin_left = 117.0
+margin_right = 161.0
+margin_bottom = 20.0
+text = "extra"
+
+[node name="toppings" type="Node2D" parent="."]
+position = Vector2( 75.5146, 307.41 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="toppings"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="toppings/VBoxContainer"]
+margin_right = 289.0
+margin_bottom = 14.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "select toppings"
+
+[node name="GridContainer" type="GridContainer" parent="toppings/VBoxContainer"]
+margin_top = 18.0
+margin_right = 289.0
+margin_bottom = 68.0
+custom_constants/vseparation = 10
+custom_constants/hseparation = 10
+columns = 4
+
+[node name="Button" type="Button" parent="toppings/VBoxContainer/GridContainer"]
+margin_right = 57.0
+margin_bottom = 20.0
+text = "olives"
+
+[node name="Button2" type="Button" parent="toppings/VBoxContainer/GridContainer"]
+margin_left = 67.0
+margin_right = 156.0
+margin_bottom = 20.0
+text = "mushrooms"
+
+[node name="Button3" type="Button" parent="toppings/VBoxContainer/GridContainer"]
+margin_left = 166.0
+margin_right = 221.0
+margin_bottom = 20.0
+text = "onions"
+
+[node name="Button4" type="Button" parent="toppings/VBoxContainer/GridContainer"]
+margin_left = 231.0
+margin_right = 289.0
+margin_bottom = 20.0
+text = "tomato"
+
+[node name="Button5" type="Button" parent="toppings/VBoxContainer/GridContainer"]
+margin_top = 30.0
+margin_right = 57.0
+margin_bottom = 50.0
+text = "chik'un"
+
+[node name="Button6" type="Button" parent="toppings/VBoxContainer/GridContainer"]
+margin_left = 67.0
+margin_top = 30.0
+margin_right = 156.0
+margin_bottom = 50.0
+text = "pineapple"
+
+[node name="Button7" type="Button" parent="toppings/VBoxContainer/GridContainer"]
+margin_left = 166.0
+margin_top = 30.0
+margin_right = 221.0
+margin_bottom = 50.0
+text = "basil"
+
+[node name="receipt" type="Node2D" parent="."]
+position = Vector2( 391.894, 83.8391 )
+
+[node name="ColorRect" type="ColorRect" parent="receipt"]
+margin_top = -8.91904
+margin_right = 200.0
+margin_bottom = 291.081
+color = Color( 1, 0.996078, 0.984314, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="receipt"]
+margin_left = 72.225
+margin_top = -4.92444
+margin_right = 117.225
+margin_bottom = 9.07556
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "receipt"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="receipt"]
+margin_left = 10.3961
+margin_top = 21.3392
+margin_right = 190.396
+margin_bottom = 281.339
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="actions" type="Node2D" parent="."]
+position = Vector2( 436.087, 384.654 )
+
+[node name="GridContainer" type="GridContainer" parent="actions"]
+margin_right = 40.0
+margin_bottom = 40.0
+custom_constants/hseparation = 10
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CancelOrder" type="Button" parent="actions/GridContainer"]
+margin_right = 53.0
+margin_bottom = 20.0
+text = "cancel"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SubmitOrder" type="Button" parent="actions/GridContainer"]
+margin_left = 63.0
+margin_right = 120.0
+margin_bottom = 20.0
+text = "submit"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="clock" type="Node2D" parent="."]
+position = Vector2( 456.331, 9.30173 )
+
+[node name="datetime" type="Label" parent="clock"]
+margin_right = 40.0
+margin_bottom = 14.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "mon, july 1
+11:11 am"
+__meta__ = {
+"_edit_use_anchors_": false
+}

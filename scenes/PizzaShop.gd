@@ -19,6 +19,7 @@ const Places = {
 func _ready():
 	Places[locations.PizzaStation] = $locations/PizzaStation
 	Places[locations.Ovens] = $locations/Ovens
+	Places[locations.Counter] = $locations/Counter
 	
 	for location in Places.values():
 		if location:
@@ -28,6 +29,26 @@ func _ready():
 	$CounterButton.connect("pressed", self, "_on_location_button_pressed", [locations.Counter])
 	$OfficeButton.connect("pressed", self, "_on_location_button_pressed", [locations.Office])
 	$OvensButton.connect("pressed", self, "_on_location_button_pressed", [locations.Ovens])
+
+func _process(delta):
+	var openOrdersString = ""
+	
+	for order in Player.Shop.OpenOrders:
+		var orderString = ""
+		var nowBakingString = ""
+		var hasBeenMade = order.items.size() > 0
+		var isComplete = order.status == "baked"
+		if order.status == "baking":
+			nowBakingString = "now baking"
+		if hasBeenMade:
+			nowBakingString += "\nMADE"
+		if isComplete:
+			nowBakingString += "- ready"
+		nowBakingString += "\n%s" % order.status
+		openOrdersString += "\n------\nsize: %s\nsauce: %s\ncheese: %s\ntoppings: %s\n%s" % [Constants.PIZZA_SIZE_LABELS[order.pizza.size], order.pizza.sauce, order.pizza.cheese, PoolStringArray(order.pizza.toppings).join(", "), nowBakingString]
+
+	$OpenOrdersLabel.text = openOrdersString
+		
 
 func _on_location_button_pressed(loc):
 	match loc:

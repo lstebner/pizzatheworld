@@ -62,6 +62,8 @@ func _on_increase_temp_button_pressed():
 	changeTemperature(oven.tempControlStepAmount)
 
 func _on_decrease_temp_button_pressed():
+	if oven.currentTemp == 0: return
+	
 	changeTemperature(-oven.tempControlStepAmount)
 	
 func _on_change_temp_timer_timeout():
