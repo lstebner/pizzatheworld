@@ -88,7 +88,7 @@ __meta__ = {
 }
 
 [node name="CookBelt" type="Node2D" parent="."]
-position = Vector2( 342.749, 213.591 )
+position = Vector2( 380.582, 42.7676 )
 
 [node name="ColorRect" type="ColorRect" parent="CookBelt"]
 margin_right = 335.0
@@ -110,4 +110,23 @@ position = Vector2( 190.625, 0 )
 position = Vector2( 273.032, 0 )
 
 [node name="ChangeTempTimer" type="Timer" parent="."]
-wait_time = 0.1
+wait_time = 0.015
+
+[node name="PizzasList" type="ItemList" parent="."]
+margin_left = 144.649
+margin_top = 228.202
+margin_right = 274.649
+margin_bottom = 358.202
+custom_colors/font_color_selected = Color( 1, 1, 1, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PizzaInfo" type="RichTextLabel" parent="."]
+margin_left = 278.162
+margin_top = 229.552
+margin_right = 408.162
+margin_bottom = 359.552
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -50,7 +50,7 @@ func displayFlashMessage(message):
 	$FlashMessageTimer.start()
 	
 func incrementCurrentReceiptIndex():
-	if currentReceiptIndex < 0: return
+	if currentReceiptIndex < 0 and receipts.size() == 0: return
 	
 	currentReceiptIndex += 1
 	if currentReceiptIndex >= receipts.size():
@@ -78,8 +78,9 @@ func _on_complete_pizza_pressed():
 	
 	pizzaInProgress.status = Constants.PIZZA_STATUSES.prepped
 	displayFlashMessage("sending pizza to oven")
-	receipts[currentReceiptIndex].items.append(pizzaInProgress)
-	receipts[currentReceiptIndex].changeStatus(Constants.RECEIPT_STATUSES.prepped)
+	Player.Shop.Pizzas.append(pizzaInProgress)
+	#receipts[currentReceiptIndex].items.append(pizzaInProgress)
+	
 	resetPizzaInProgress()
 
 func _on_size_button_pressed(button):	

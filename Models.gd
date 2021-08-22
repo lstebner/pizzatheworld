@@ -14,11 +14,17 @@ class Pizza:
 	var bakeTime = 0
 	var numCuts = 0
 	
+	func _init():
+		id = "pizza-%s" % Player.Shop.nextId()
+	
 	func changeStatus(newStatus):
 		status = newStatus
 		
 	func isBaked():
 		return status == Constants.PIZZA_STATUSES.baked
+	
+	func isBaking():
+		return status == Constants.PIZZA_STATUSES.baking
 	
 	func isBoxed():
 		return status == Constants.PIZZA_STATUSES.boxed
@@ -58,6 +64,28 @@ class Pizza:
 	func isComplete():
 		# toppings are considered optional, everything else is required
 		return size != -1 and sauce != "" and cheese != ""
+	
+	func getShortDescription():
+		return "%s" % id
+	
+	func getDescriptionString():
+		var desc = ""
+		var toppingsString = ""
+		
+		if toppings.size() == 0:
+			toppingsString = "none"
+		else:
+			for topping in toppings:
+				toppingsString += "%s, " % topping
+		
+		desc += "id: %s\n" % id
+		desc += "size: %s\n" % sizeLabel
+		desc += "sauce: %s\n" % sauce
+		desc += "cheese: %s\n" % cheese
+		desc += "toppings: %s\n" % toppingsString
+		desc += "status: %s\n" % Constants.PIZZA_STATUSES.keys()[status]
+		
+		return desc
 
 class Receipt:
 	var pizza = Pizza.new()

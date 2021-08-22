@@ -47,7 +47,6 @@ func _process(delta):
 			nowBakingString += "- ready"
 		nowBakingString += "\n%s" % Constants.RECEIPT_STATUSES.keys()[order.status]
 		openOrdersString += "\n------\n%s\n%s" % [nowBakingString, order.lineItemsString()]
-		#openOrdersString += "\n------\nsize: %s\nsauce: %s\ncheese: %s\ntoppings: %s\n%s" % [Constants.PIZZA_SIZE_LABELS[order.pizza.size], order.pizza.sauce, order.pizza.cheese, PoolStringArray(order.pizza.toppings).join(", "), nowBakingString]
 
 	$OpenOrdersLabel.text = openOrdersString
 		
@@ -62,6 +61,7 @@ func _on_location_button_pressed(loc):
 			print("be right there")
 		locations.Ovens:
 			print("checking ovens")
+			$locations/Ovens.refreshPizzasList()
 			
 	if Places[loc]:
 		viewScreen(Places[loc])

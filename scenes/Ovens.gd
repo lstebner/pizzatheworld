@@ -4,6 +4,7 @@ signal leave
 
 var oven = Player.Shop.Ovens[0]
 var itemSlots = []
+var selectedPizza = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -25,6 +26,26 @@ func _ready():
 	increaseTempButton.connect("pressed", self, "_on_increase_temp_button_pressed")
 	decreaseTempButton.connect("pressed", self, "_on_decrease_temp_button_pressed")
 	$ChangeTempTimer.connect("timeout", self, "_on_change_temp_timer_timeout")
+	$PizzasList.connect("item_selected", self, "_on_pizzas_list_item_selected")
+	
+func refreshPizzasList():
+	var selectedItems = $PizzasList.get_selected_items()
+	$PizzaInfo.text = ""
+	$PizzasList.clear()
+	
+	for pizza in Player.Shop.Pizzas:
+		var bakedIndicator = "o"
+		if pizza.isBaked():
+			bakedIndicator = "x"
+		elif pizza.isBaking():
+			bakedIndicator = "-"
+			
+		if !pizza.isBoxed():
+			$PizzasList.add_item(bakedIndicator + " " + pizza.getShortDescription())
+	
+	if selectedItems.size() > 0:
+		$PizzasList.select(selectedItems[0])
+		refreshPizzaInfo()
 
 func adjustTargetTemp(newTemp):
 	oven.targetTemp = newTemp
@@ -39,6 +60,10 @@ func adjustTargetTemp(newTemp):
 
 func changeTemperature(amount):
 	adjustTargetTemp(oven.targetTemp + amount)
+
+func refreshPizzaInfo():
+	if selectedPizza:
+		$PizzaInfo.text = selectedPizza.getDescriptionString()
 
 func _process(delta):
 	if oven.currentTemp != oven.targetTemp:
@@ -81,22 +106,23 @@ func _on_item_slot_insert_item(slot):
 	if oven.currentTemp == 0: return print("oven temperature is not set")
 	if oven.currentTemp < 700: return print("oven is still too cold")
 	
-	var nextOrder = null
-	for order in Player.Shop.OpenOrders:
-		if order.status == Constants.RECEIPT_STATUSES.prepped:
-			nextOrder = order
-			break
-	
-	if nextOrder:
-		if nextOrder.items.size() == 0:
-			return print("this order does not have items available for the oven")
-			
-		slot.insertItem(nextOrder.items[0])
-		nextOrder.changeStatus(Constants.RECEIPT_STATUSES.baking)
+	if selectedPizza:
+		if selectedPizza.isBaked():
+			print("this pizza is already baked, yo")
+		elif selectedPizza.isBaking():
+			print("this pizza is currently baking")
+		else:
+			slot.insertItem(selectedPizza)
+			selectedPizza.startBaking()
+			refreshPizzasList()
+			#nextOrder.changeStatus(Constants.RECEIPT_STATUSES.baking) - TODO: turn this into a manual action
 	else:
-		print("no more orders need baking right now")
+		print("select a pizza to bake")
 
-func _on_item_slot_item_removed(_removedItem):
+func _on_item_slot_item_removed(removedItem):
+	removedItem.completeBaking()
+	refreshPizzasList()
+	
 	for order in Player.Shop.OpenOrders:
 		if order.items.size() > 0:
 			var orderIsComplete = true
@@ -113,3 +139,12 @@ func _on_item_slot_item_removed(_removedItem):
 
 func _on_item_slot_baking_complete(slot):
 	pass
+
+func _on_pizzas_list_item_selected(index):
+	selectedPizza = Player.Shop.Pizzas[index]
+	
+	if selectedPizza:
+		$PizzaInfo.text = selectedPizza.getDescriptionString()
+	else:
+		$PizzaInfo.text = ""
+

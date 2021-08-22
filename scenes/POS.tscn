@@ -32,7 +32,7 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="size/VBoxContainer"]
-margin_right = 158.0
+margin_right = 69.0
 margin_bottom = 14.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "select size"
@@ -42,7 +42,7 @@ __meta__ = {
 
 [node name="GridContainer" type="GridContainer" parent="size/VBoxContainer"]
 margin_top = 18.0
-margin_right = 158.0
+margin_right = 69.0
 margin_bottom = 18.0
 custom_constants/vseparation = 10
 custom_constants/hseparation = 10
@@ -62,7 +62,7 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="sauce/VBoxContainer"]
-margin_right = 188.0
+margin_right = 80.0
 margin_bottom = 14.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "select sauce"
@@ -72,7 +72,7 @@ __meta__ = {
 
 [node name="GridContainer" type="GridContainer" parent="sauce/VBoxContainer"]
 margin_top = 18.0
-margin_right = 188.0
+margin_right = 80.0
 margin_bottom = 18.0
 custom_constants/hseparation = 10
 columns = 4
@@ -91,14 +91,14 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="cheese/VBoxContainer"]
-margin_right = 161.0
+margin_right = 89.0
 margin_bottom = 14.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "select cheese"
 
 [node name="GridContainer" type="GridContainer" parent="cheese/VBoxContainer"]
 margin_top = 18.0
-margin_right = 161.0
+margin_right = 89.0
 margin_bottom = 18.0
 custom_constants/hseparation = 10
 columns = 4
@@ -114,14 +114,14 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="toppings/VBoxContainer"]
-margin_right = 289.0
+margin_right = 98.0
 margin_bottom = 14.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "select toppings"
 
 [node name="GridContainer" type="GridContainer" parent="toppings/VBoxContainer"]
 margin_top = 18.0
-margin_right = 289.0
+margin_right = 98.0
 margin_bottom = 18.0
 custom_constants/vseparation = 10
 custom_constants/hseparation = 10

@@ -26,9 +26,7 @@ func insertItem(newItem):
 	$ActionsContainer/Insert.hide()
 	$ActionsContainer/Remove.show()
 	
-func removeItem(force = false):
-	if !item.isBaked() and !force: return
-	
+func removeItem():
 	var removedItem = item
 	item = null
 	
@@ -38,15 +36,16 @@ func removeItem(force = false):
 	return removedItem
 
 func _process(delta):
-	if item and item.status == Constants.PIZZA_STATUSES.baked:
-		$LabelsContainer/TimeRemaining.text = "done!"
-	else:
-		$LabelsContainer/TimeRemaining.text = "%s" % round($BakeTimer.time_left)
-	
 	if item:
 		$LabelsContainer/ItemName.text = "pizza"
+		
+		if $BakeTimer.time_left == 0:
+			$LabelsContainer/TimeRemaining.text = "done!"
+		else:
+			$LabelsContainer/TimeRemaining.text = "%s" % round($BakeTimer.time_left)
 	else:
 		$LabelsContainer/ItemName.text = "<empty>"
+		$LabelsContainer/TimeRemaining.text = "-"
 
 func _on_insert_pressed():
 	emit_signal("insert_item")
@@ -54,8 +53,8 @@ func _on_insert_pressed():
 func _on_remove_pressed():
 	if !item: return
 	
-	removeItem()
-	emit_signal("item_removed", item)
+	var removedItem = removeItem()
+	emit_signal("item_removed", removedItem)
 	
 func _on_cut_pressed():
 	if !item: return
@@ -72,5 +71,5 @@ func _on_box_pressed():
 func _on_bake_timer_timeout():
 	if !item: return
 	
-	item.completeBaking()
+	#item.completeBaking()
 	emit_signal("baking_complete")
