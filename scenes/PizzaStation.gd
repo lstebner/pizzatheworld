@@ -50,6 +50,8 @@ func displayFlashMessage(message):
 	$FlashMessageTimer.start()
 	
 func incrementCurrentReceiptIndex():
+	if currentReceiptIndex < 0: return
+	
 	currentReceiptIndex += 1
 	if currentReceiptIndex >= receipts.size():
 		currentReceiptIndex -= receipts.size()
@@ -64,7 +66,7 @@ func decrementCurrentReceiptIndex():
 func markCurrentReceiptCompleted():
 	if currentReceiptIndex < 0: return
 	
-	receipts[currentReceiptIndex].status = "baking"
+	receipts[currentReceiptIndex].changeStatus(Constants.RECEIPT_STATUSES.prepped)
 
 func _on_leave_station_pressed():
 	emit_signal("leave")
@@ -77,6 +79,7 @@ func _on_complete_pizza_pressed():
 	pizzaInProgress.status = Constants.PIZZA_STATUSES.prepped
 	displayFlashMessage("sending pizza to oven")
 	receipts[currentReceiptIndex].items.append(pizzaInProgress)
+	receipts[currentReceiptIndex].changeStatus(Constants.RECEIPT_STATUSES.prepped)
 	resetPizzaInProgress()
 
 func _on_size_button_pressed(button):	
@@ -151,15 +154,16 @@ func _process(delta):
 		if currentReceipt and currentReceipt.pizza:
 			var nowBakingString = ""
 			var hasBeenMade = currentReceipt.items.size() > 0
-			var isComplete = currentReceipt.status == "baked"
-			if currentReceipt.status == "baking":
+			var isComplete = currentReceipt.status == Constants.RECEIPT_STATUSES.baked
+			
+			if currentReceipt.status == Constants.RECEIPT_STATUSES.baking:
 				nowBakingString = "now baking"
 			if hasBeenMade:
 				nowBakingString += "\nMADE"
 			if isComplete:
 				nowBakingString += "- ready"
-			nowBakingString += "\n%s" % currentReceipt.status
-			$Receipt/VBoxContainer/RichTextLabel.text = "size: %s\nsauce: %s\ncheese: %s\ntoppings: %s\n%s" % [Constants.PIZZA_SIZE_LABELS[currentReceipt.pizza.size], currentReceipt.pizza.sauce, currentReceipt.pizza.cheese, PoolStringArray(currentReceipt.pizza.toppings).join(", "), nowBakingString]
+			nowBakingString += "\n%s" % Constants.RECEIPT_STATUSES.keys()[currentReceipt.status]
+			$Receipt/VBoxContainer/RichTextLabel.text = nowBakingString + "\n" + currentReceipt.lineItemsString()
 
 func _on_discard_pizza_in_progress_pressed():
 	resetPizzaInProgress()

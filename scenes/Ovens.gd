@@ -83,7 +83,7 @@ func _on_item_slot_insert_item(slot):
 	
 	var nextOrder = null
 	for order in Player.Shop.OpenOrders:
-		if order.status == "order_placed":
+		if order.status == Constants.RECEIPT_STATUSES.prepped:
 			nextOrder = order
 			break
 	
@@ -92,7 +92,7 @@ func _on_item_slot_insert_item(slot):
 			return print("this order does not have items available for the oven")
 			
 		slot.insertItem(nextOrder.items[0])
-		nextOrder.status = "baking"
+		nextOrder.changeStatus(Constants.RECEIPT_STATUSES.baking)
 	else:
 		print("no more orders need baking right now")
 
@@ -103,14 +103,13 @@ func _on_item_slot_item_removed(_removedItem):
 			var orderIsBaked = true
 			# todo: move this into a model method such as order.checkIfComplete()
 			for item in order.items:
-				print(item.status)
 				orderIsBaked = orderIsBaked and item.isBaked()
 				orderIsComplete = orderIsComplete and item.isBoxed()
 			
 			if orderIsComplete:
-				order.status = "complete" # move to order.changeStatus, needs ORDER_STATUS constants
+				order.changeStatus(Constants.RECEIPT_STATUSES.fulfilled)
 			elif orderIsBaked:
-				order.status = "baked"
+				order.changeStatus(Constants.RECEIPT_STATUSES.baked)
 
 func _on_item_slot_baking_complete(slot):
 	pass

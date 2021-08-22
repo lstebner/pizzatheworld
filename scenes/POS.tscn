@@ -43,45 +43,10 @@ __meta__ = {
 [node name="GridContainer" type="GridContainer" parent="size/VBoxContainer"]
 margin_top = 18.0
 margin_right = 158.0
-margin_bottom = 38.0
+margin_bottom = 18.0
 custom_constants/vseparation = 10
 custom_constants/hseparation = 10
 columns = 4
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Six" type="Button" parent="size/VBoxContainer/GridContainer"]
-margin_right = 26.0
-margin_bottom = 20.0
-text = "6\""
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Ten" type="Button" parent="size/VBoxContainer/GridContainer"]
-margin_left = 36.0
-margin_right = 70.0
-margin_bottom = 20.0
-text = "10\""
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Twelve" type="Button" parent="size/VBoxContainer/GridContainer"]
-margin_left = 80.0
-margin_right = 114.0
-margin_bottom = 20.0
-text = "12\""
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Fourteen" type="Button" parent="size/VBoxContainer/GridContainer"]
-margin_left = 124.0
-margin_right = 158.0
-margin_bottom = 20.0
-text = "14\""
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -108,29 +73,9 @@ __meta__ = {
 [node name="GridContainer" type="GridContainer" parent="sauce/VBoxContainer"]
 margin_top = 18.0
 margin_right = 188.0
-margin_bottom = 38.0
+margin_bottom = 18.0
 custom_constants/hseparation = 10
 columns = 4
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Marinara" type="Button" parent="sauce/VBoxContainer/GridContainer"]
-margin_right = 68.0
-margin_bottom = 20.0
-text = "marinara"
-
-[node name="Alfredo" type="Button" parent="sauce/VBoxContainer/GridContainer"]
-margin_left = 78.0
-margin_right = 134.0
-margin_bottom = 20.0
-text = "alfredo"
-
-[node name="None" type="Button" parent="sauce/VBoxContainer/GridContainer"]
-margin_left = 144.0
-margin_right = 188.0
-margin_bottom = 20.0
-text = "none"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -154,26 +99,9 @@ text = "select cheese"
 [node name="GridContainer" type="GridContainer" parent="cheese/VBoxContainer"]
 margin_top = 18.0
 margin_right = 161.0
-margin_bottom = 38.0
+margin_bottom = 18.0
 custom_constants/hseparation = 10
 columns = 4
-
-[node name="Normal" type="Button" parent="cheese/VBoxContainer/GridContainer"]
-margin_right = 57.0
-margin_bottom = 20.0
-text = "normal"
-
-[node name="Light" type="Button" parent="cheese/VBoxContainer/GridContainer"]
-margin_left = 67.0
-margin_right = 107.0
-margin_bottom = 20.0
-text = "light"
-
-[node name="Extra" type="Button" parent="cheese/VBoxContainer/GridContainer"]
-margin_left = 117.0
-margin_right = 161.0
-margin_bottom = 20.0
-text = "extra"
 
 [node name="toppings" type="Node2D" parent="."]
 position = Vector2( 75.5146, 307.41 )
@@ -194,53 +122,10 @@ text = "select toppings"
 [node name="GridContainer" type="GridContainer" parent="toppings/VBoxContainer"]
 margin_top = 18.0
 margin_right = 289.0
-margin_bottom = 68.0
+margin_bottom = 18.0
 custom_constants/vseparation = 10
 custom_constants/hseparation = 10
 columns = 4
-
-[node name="Button" type="Button" parent="toppings/VBoxContainer/GridContainer"]
-margin_right = 57.0
-margin_bottom = 20.0
-text = "olives"
-
-[node name="Button2" type="Button" parent="toppings/VBoxContainer/GridContainer"]
-margin_left = 67.0
-margin_right = 156.0
-margin_bottom = 20.0
-text = "mushrooms"
-
-[node name="Button3" type="Button" parent="toppings/VBoxContainer/GridContainer"]
-margin_left = 166.0
-margin_right = 221.0
-margin_bottom = 20.0
-text = "onions"
-
-[node name="Button4" type="Button" parent="toppings/VBoxContainer/GridContainer"]
-margin_left = 231.0
-margin_right = 289.0
-margin_bottom = 20.0
-text = "tomato"
-
-[node name="Button5" type="Button" parent="toppings/VBoxContainer/GridContainer"]
-margin_top = 30.0
-margin_right = 57.0
-margin_bottom = 50.0
-text = "chik'un"
-
-[node name="Button6" type="Button" parent="toppings/VBoxContainer/GridContainer"]
-margin_left = 67.0
-margin_top = 30.0
-margin_right = 156.0
-margin_bottom = 50.0
-text = "pineapple"
-
-[node name="Button7" type="Button" parent="toppings/VBoxContainer/GridContainer"]
-margin_left = 166.0
-margin_top = 30.0
-margin_right = 221.0
-margin_bottom = 50.0
-text = "basil"
 
 [node name="receipt" type="Node2D" parent="."]
 position = Vector2( 391.894, 83.8391 )
@@ -248,7 +133,7 @@ position = Vector2( 391.894, 83.8391 )
 [node name="ColorRect" type="ColorRect" parent="receipt"]
 margin_top = -8.91904
 margin_right = 200.0
-margin_bottom = 291.081
+margin_bottom = 261.081
 color = Color( 1, 0.996078, 0.984314, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -269,7 +154,8 @@ __meta__ = {
 margin_left = 10.3961
 margin_top = 21.3392
 margin_right = 190.396
-margin_bottom = 281.339
+margin_bottom = 251.339
+custom_colors/default_color = Color( 0, 0, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -312,6 +198,38 @@ margin_bottom = 14.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "mon, july 1
 11:11 am"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_left = 394.868
+margin_top = 344.656
+margin_right = 574.868
+margin_bottom = 384.656
+custom_constants/separation = 40
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Total" type="Label" parent="HBoxContainer"]
+margin_top = 13.0
+margin_right = 41.0
+margin_bottom = 27.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "TOTAL"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tax" type="Label" parent="HBoxContainer"]
+margin_left = 81.0
+margin_top = 13.0
+margin_right = 105.0
+margin_bottom = 27.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "TAX"
+align = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }

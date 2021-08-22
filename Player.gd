@@ -1,43 +1,14 @@
 extends Node
 
-# test data
-var receipt = {
-	"pizza": {
-		"size": Constants.PIZZA_SIZES.six,
-		"sauce": "Marinara",
-		"cheese": "regular",
-		"toppings": ["Mushrooms", "Olives"],
-		"for_dine_in": false,
-		"quantity": 1,
-		"status": "",
-	},
-	"status": "order_placed",
-	"items": [],
-}
-# test data
-var receipt2 = {
-	"pizza": {
-		"size": Constants.PIZZA_SIZES.twelve,
-		"sauce": "Marinara",
-		"cheese": "light",
-		"toppings": ["everything"],
-		"for_dine_in": true,
-		"quantity": 1,
-		"status": "",
-	},
-	"status": "order_placed",
-	"items": [],
-}
-
 var Shop = {
 	"Name": "Pizzerteria",
 	"Level": 1,
-	"OpenOrders": [receipt, receipt2],
+	"OpenOrders": [],
 	"CompletedOrders": [],
-	"AvailableToppings": [],
-	"AvailablePans": [],
-	"AvailableSauces": [],
-	"AvailableCheeses": [],
+	"AvailableToppings": Constants.TOPPINGS,
+	"AvailablePans": Constants.PIZZA_SIZES,
+	"AvailableSauces": Constants.SAUCES,
+	"AvailableCheeses": Constants.CHEESES,
 	"Ovens": [{
 		"currentTemp": 0,
 		"targetTemp": 0,
@@ -50,6 +21,11 @@ var Shop = {
 		"tempControlStepAmount": 50,
 		"items": [],
 	}],
-	"Stats": {},
+	"Stats": {
+		"pizzasMade": 0,
+		"lifetimeIncome": 0,
+		"daysInBusiness": 0,
+		"customersServed": 0,
+	},
 	"Balance": 0,
 }

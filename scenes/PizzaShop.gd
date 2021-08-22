@@ -37,15 +37,17 @@ func _process(delta):
 		var orderString = ""
 		var nowBakingString = ""
 		var hasBeenMade = order.items.size() > 0
-		var isComplete = order.status == "baked"
-		if order.status == "baking":
+		var isComplete = order.status == Constants.RECEIPT_STATUSES.baked
+		
+		if order.status == Constants.RECEIPT_STATUSES.baking:
 			nowBakingString = "now baking"
 		if hasBeenMade:
 			nowBakingString += "\nMADE"
 		if isComplete:
 			nowBakingString += "- ready"
-		nowBakingString += "\n%s" % order.status
-		openOrdersString += "\n------\nsize: %s\nsauce: %s\ncheese: %s\ntoppings: %s\n%s" % [Constants.PIZZA_SIZE_LABELS[order.pizza.size], order.pizza.sauce, order.pizza.cheese, PoolStringArray(order.pizza.toppings).join(", "), nowBakingString]
+		nowBakingString += "\n%s" % Constants.RECEIPT_STATUSES.keys()[order.status]
+		openOrdersString += "\n------\n%s\n%s" % [nowBakingString, order.lineItemsString()]
+		#openOrdersString += "\n------\nsize: %s\nsauce: %s\ncheese: %s\ntoppings: %s\n%s" % [Constants.PIZZA_SIZE_LABELS[order.pizza.size], order.pizza.sauce, order.pizza.cheese, PoolStringArray(order.pizza.toppings).join(", "), nowBakingString]
 
 	$OpenOrdersLabel.text = openOrdersString
 		

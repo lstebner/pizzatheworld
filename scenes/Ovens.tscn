@@ -110,4 +110,4 @@ position = Vector2( 190.625, 0 )
 position = Vector2( 273.032, 0 )
 
 [node name="ChangeTempTimer" type="Timer" parent="."]
-wait_time = 0.25
+wait_time = 0.1

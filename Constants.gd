@@ -1,5 +1,7 @@
 extends Node
 
+const SALES_TAX = .071
+
 enum PIZZA_STATUSES {
 	ordered,
 	prepped,
@@ -10,11 +12,53 @@ enum PIZZA_STATUSES {
 	delivered,
 }
 
+enum RECEIPT_STATUSES {
+	new,
+	order_placed,
+	baking,
+	baked,
+	prepped,
+	fulfilled,
+	refunded,
+}
+
+enum RECEIPT_LINE_ITEMS {
+	size,
+	topping,
+	sauce,
+	cheese,
+	tax,
+	total,
+}
+
 enum PIZZA_SIZES {
 	six,
 	ten,
 	twelve,
 	fourteen,
+}
+
+enum TOPPINGS {
+	mushrooms,
+	onions,
+	olives,
+	chikun,
+	basil,
+	tomatoes,
+}
+
+enum SAUCES {
+	marinara,
+	alfredo,
+	bbq,
+	none,
+}
+
+enum CHEESES {
+	light,
+	normal,
+	heavy,
+	none,
 }
 
 const PIZZA_SIZE_LABELS = {
