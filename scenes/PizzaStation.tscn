@@ -17,6 +17,7 @@ __meta__ = {
 }
 
 [node name="Six" type="Button" parent="Pans/VBoxContainer" groups=[
+"pizza_station_buttons",
 "size_buttons",
 ]]
 margin_right = 40.0
@@ -24,6 +25,7 @@ margin_bottom = 20.0
 text = "6\""
 
 [node name="Ten" type="Button" parent="Pans/VBoxContainer" groups=[
+"pizza_station_buttons",
 "size_buttons",
 ]]
 margin_top = 34.0
@@ -32,6 +34,7 @@ margin_bottom = 54.0
 text = "10\""
 
 [node name="Twelve" type="Button" parent="Pans/VBoxContainer" groups=[
+"pizza_station_buttons",
 "size_buttons",
 ]]
 margin_top = 68.0
@@ -40,6 +43,7 @@ margin_bottom = 88.0
 text = "12\""
 
 [node name="Fourteen" type="Button" parent="Pans/VBoxContainer" groups=[
+"pizza_station_buttons",
 "size_buttons",
 ]]
 margin_top = 102.0
@@ -47,10 +51,10 @@ margin_right = 40.0
 margin_bottom = 122.0
 text = "14\""
 
-[node name="Sauce Buttons" type="Node2D" parent="."]
+[node name="Sauces" type="Node2D" parent="."]
 position = Vector2( 51.9137, 328.434 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Sauce Buttons"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Sauces"]
 margin_right = 40.0
 margin_bottom = 40.0
 custom_constants/separation = 14
@@ -58,14 +62,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Marinara" type="Button" parent="Sauce Buttons/VBoxContainer" groups=[
+[node name="Marinara" type="Button" parent="Sauces/VBoxContainer" groups=[
+"pizza_station_buttons",
 "sauce_buttons",
 ]]
 margin_right = 87.0
 margin_bottom = 20.0
 text = "marinara"
 
-[node name="Alfredo" type="Button" parent="Sauce Buttons/VBoxContainer" groups=[
+[node name="Alfredo" type="Button" parent="Sauces/VBoxContainer" groups=[
+"pizza_station_buttons",
 "sauce_buttons",
 ]]
 margin_top = 34.0
@@ -73,7 +79,8 @@ margin_right = 87.0
 margin_bottom = 54.0
 text = "alfredo"
 
-[node name="Pesto" type="Button" parent="Sauce Buttons/VBoxContainer" groups=[
+[node name="Pesto" type="Button" parent="Sauces/VBoxContainer" groups=[
+"pizza_station_buttons",
 "sauce_buttons",
 ]]
 margin_top = 68.0
@@ -81,7 +88,8 @@ margin_right = 87.0
 margin_bottom = 88.0
 text = "pesto"
 
-[node name="Bbq" type="Button" parent="Sauce Buttons/VBoxContainer" groups=[
+[node name="Bbq" type="Button" parent="Sauces/VBoxContainer" groups=[
+"pizza_station_buttons",
 "sauce_buttons",
 ]]
 margin_top = 102.0
@@ -89,7 +97,8 @@ margin_right = 87.0
 margin_bottom = 122.0
 text = "bbq"
 
-[node name="Garlic" type="Button" parent="Sauce Buttons/VBoxContainer" groups=[
+[node name="Garlic" type="Button" parent="Sauces/VBoxContainer" groups=[
+"pizza_station_buttons",
 "sauce_buttons",
 ]]
 margin_top = 136.0
@@ -100,59 +109,67 @@ text = "garlic sauce"
 [node name="Toppings" type="Node2D" parent="."]
 position = Vector2( 299.828, 430.142 )
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Toppings"]
+[node name="GridContainer" type="GridContainer" parent="Toppings"]
 margin_right = 40.0
 margin_bottom = 40.0
-custom_constants/separation = 14
+custom_constants/vseparation = 10
+custom_constants/hseparation = 10
+columns = 8
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Mushrooms" type="Button" parent="Toppings/HBoxContainer" groups=[
+[node name="Mushrooms" type="Button" parent="Toppings/GridContainer" groups=[
+"pizza_station_buttons",
 "toppings_buttons",
 ]]
 margin_right = 89.0
-margin_bottom = 40.0
+margin_bottom = 20.0
 text = "mushrooms"
 
-[node name="Onions" type="Button" parent="Toppings/HBoxContainer" groups=[
+[node name="Onions" type="Button" parent="Toppings/GridContainer" groups=[
+"pizza_station_buttons",
 "toppings_buttons",
 ]]
-margin_left = 103.0
-margin_right = 158.0
-margin_bottom = 40.0
+margin_left = 99.0
+margin_right = 154.0
+margin_bottom = 20.0
 text = "onions"
 
-[node name="Olives" type="Button" parent="Toppings/HBoxContainer" groups=[
+[node name="Olives" type="Button" parent="Toppings/GridContainer" groups=[
+"pizza_station_buttons",
 "toppings_buttons",
 ]]
-margin_left = 172.0
-margin_right = 222.0
-margin_bottom = 40.0
+margin_left = 164.0
+margin_right = 214.0
+margin_bottom = 20.0
 text = "olives"
 
-[node name="Pineapple" type="Button" parent="Toppings/HBoxContainer" groups=[
+[node name="Pineapple" type="Button" parent="Toppings/GridContainer" groups=[
+"pizza_station_buttons",
 "toppings_buttons",
 ]]
-margin_left = 236.0
-margin_right = 311.0
-margin_bottom = 40.0
+margin_left = 224.0
+margin_right = 299.0
+margin_bottom = 20.0
 text = "pineapple"
 
-[node name="Chikun" type="Button" parent="Toppings/HBoxContainer" groups=[
+[node name="Chikun" type="Button" parent="Toppings/GridContainer" groups=[
+"pizza_station_buttons",
 "toppings_buttons",
 ]]
-margin_left = 325.0
-margin_right = 382.0
-margin_bottom = 40.0
+margin_left = 309.0
+margin_right = 366.0
+margin_bottom = 20.0
 text = "chik'un"
 
-[node name="Basil" type="Button" parent="Toppings/HBoxContainer" groups=[
+[node name="Basil" type="Button" parent="Toppings/GridContainer" groups=[
+"pizza_station_buttons",
 "toppings_buttons",
 ]]
-margin_left = 396.0
-margin_right = 438.0
-margin_bottom = 40.0
+margin_left = 376.0
+margin_right = 418.0
+margin_bottom = 20.0
 text = "basil"
 
 [node name="Cheeses" type="Node2D" parent="."]

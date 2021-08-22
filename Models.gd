@@ -4,8 +4,8 @@ class Pizza:
 	var id = ""
 	var size = -1
 	var sizeLabel = ""
-	var sauce = ""
-	var cheese = ""
+	var sauce = -1
+	var cheese = -1
 	var toppings = []
 	var status = Constants.PIZZA_STATUSES.ordered
 	var isCut = false
@@ -28,6 +28,31 @@ class Pizza:
 	
 	func isBoxed():
 		return status == Constants.PIZZA_STATUSES.boxed
+	
+	func isSizeSet():
+		return size != -1
+		
+	func isSauceSet():
+		return sauce != -1
+	
+	func isCheeseSet():
+		return cheese != -1
+	
+	func hasToppings():
+		return toppings.size() > 0
+		
+	func hasTopping(topping):
+		return toppings.has(topping)
+	
+	func addCheese():
+		if cheese == Constants.CHEESES.heavy: return
+		
+		if cheese == Constants.CHEESES.normal:
+			cheese = Constants.CHEESES.heavy
+		elif cheese == Constants.CHEESES.light:
+			cheese = Constants.CHEESES.normal
+		else:
+			cheese = Constants.CHEESES.light
 		
 	func finishPrep():
 		if !isComplete(): return
@@ -63,7 +88,7 @@ class Pizza:
 		
 	func isComplete():
 		# toppings are considered optional, everything else is required
-		return size != -1 and sauce != "" and cheese != ""
+		return isSizeSet() and isSauceSet() and isCheeseSet()
 	
 	func getShortDescription():
 		return "%s" % id
@@ -76,12 +101,12 @@ class Pizza:
 			toppingsString = "none"
 		else:
 			for topping in toppings:
-				toppingsString += "%s, " % topping
+				toppingsString += "%s, " % Constants.TOPPINGS.keys()[topping]
 		
 		desc += "id: %s\n" % id
 		desc += "size: %s\n" % sizeLabel
-		desc += "sauce: %s\n" % sauce
-		desc += "cheese: %s\n" % cheese
+		desc += "sauce: %s\n" % Constants.SAUCES.keys()[sauce]
+		desc += "cheese: %s\n" % Constants.CHEESES.keys()[cheese]
 		desc += "toppings: %s\n" % toppingsString
 		desc += "status: %s\n" % Constants.PIZZA_STATUSES.keys()[status]
 		

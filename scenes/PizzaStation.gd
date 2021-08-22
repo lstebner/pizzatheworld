@@ -5,28 +5,17 @@ signal leave
 var receipts = Player.Shop.OpenOrders
 var currentReceiptIndex = -1
 
-var pizzaInProgress = {}
+var pizzaInProgress = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	createButtons()
 	resetPizzaInProgress() #initializes object properties
 	
-	var sizeButtons = get_tree().get_nodes_in_group("size_buttons")
-	var sauceButtons = get_tree().get_nodes_in_group("sauce_buttons")
-	var toppingsButtons = get_tree().get_nodes_in_group("toppings_buttons")
 	var addCheeseButton = $Cheeses/HBoxContainer/AddCheeseButton
 	var nextReceiptButton = $Receipt/VBoxContainer/HBoxContainer/NextReceipt
 	var previousReceiptButton = $Receipt/VBoxContainer/HBoxContainer/PrevReceipt
 	var completedReceiptButton = $Receipt/VBoxContainer/HBoxContainer/CompletedReceipt
-	
-	for button in sizeButtons:
-		button.connect("pressed", self, "_on_size_button_pressed", [button])
-	
-	for button in sauceButtons:
-		button.connect("pressed", self, "_on_sauce_button_pressed", [button])
-	
-	for button in toppingsButtons:
-		button.connect("pressed", self, "_on_toppings_button_pressed", [button])
 	
 	addCheeseButton.connect("pressed", self, "_on_add_cheese_button_pressed")
 	nextReceiptButton.connect("pressed", self, "incrementCurrentReceiptIndex")
@@ -39,8 +28,32 @@ func _ready():
 	
 	$FlashMessageTimer.connect("timeout", self, "_on_flash_message_timer_timeout")
 
-func isPizzaInProgressComplete():
-	return pizzaInProgress.isComplete()
+func createButtons():
+	var existingButtons = get_tree().get_nodes_in_group("pizza_station_buttons")
+	for b in existingButtons:
+		b.queue_free()
+	
+	for size in Constants.PIZZA_SIZES.values():
+		var button = Button.new()
+		button.add_to_group("pizza_station_buttons")
+		button.text = Constants.PIZZA_SIZE_LABELS[size]
+		button.connect("pressed", self, "_on_size_button_pressed", [size])
+		$Pans/VBoxContainer.add_child(button)
+	
+	for topping in Constants.TOPPINGS.values():
+		var button = Button.new()
+		button.add_to_group("pizza_station_buttons")
+		button.text = Constants.TOPPINGS.keys()[topping]
+		button.connect("pressed", self, "_on_topping_button_pressed", [topping])
+		$Toppings/GridContainer.add_child(button)
+		
+	for sauce in Constants.SAUCES.values():
+		var button = Button.new()
+		button.add_to_group("pizza_station_buttons")
+		button.text = Constants.SAUCES.keys()[sauce]
+		button.connect("pressed", self, "_on_sauce_button_pressed", [sauce])
+		$Sauces/VBoxContainer.add_child(button)
+
 
 func resetPizzaInProgress():
 	pizzaInProgress = Models.Pizza.new()
@@ -72,80 +85,68 @@ func _on_leave_station_pressed():
 	emit_signal("leave")
 	
 func _on_complete_pizza_pressed():
-	if !isPizzaInProgressComplete():
+	if !pizzaInProgress.isComplete():
 		displayFlashMessage("the pizza is still incomplete!")
 		return
 	
-	pizzaInProgress.status = Constants.PIZZA_STATUSES.prepped
+	pizzaInProgress.changeStatus(Constants.PIZZA_STATUSES.prepped)
 	displayFlashMessage("sending pizza to oven")
 	Player.Shop.Pizzas.append(pizzaInProgress)
 	#receipts[currentReceiptIndex].items.append(pizzaInProgress)
 	
 	resetPizzaInProgress()
 
-func _on_size_button_pressed(button):	
-	var newSize = -1
-	
-	match button.name:
-		"Six": newSize = Constants.PIZZA_SIZES.six
-		"Ten": newSize = Constants.PIZZA_SIZES.ten
-		"Twelve": newSize = Constants.PIZZA_SIZES.twelve
-		"Fourteen": newSize = Constants.PIZZA_SIZES.fourteen
-	
+func _on_size_button_pressed(newSize):	
 	pizzaInProgress.setSize(newSize)
-		
 	displayFlashMessage("%s size selected" % pizzaInProgress.sizeLabel)
 
-func _on_sauce_button_pressed(button):
-	if pizzaInProgress.size == -1:
+func _on_sauce_button_pressed(sauce):
+	if !pizzaInProgress.isSizeSet():
 		displayFlashMessage("can't add sauce until size is chosen")
 		return
-	elif pizzaInProgress.cheese != "":
+	elif pizzaInProgress.isCheeseSet():
 		displayFlashMessage("can't add sauce after cheese is added")
 		return
-	elif pizzaInProgress.sauce != "":
+	elif pizzaInProgress.isSauceSet():
 		displayFlashMessage("sauce already added")
 		return
 		
-	pizzaInProgress.sauce = button.name
-	displayFlashMessage("%s sauce selected" % pizzaInProgress.sauce)
+	pizzaInProgress.sauce = sauce
+	displayFlashMessage("%s sauce selected" % Constants.SAUCES.keys()[pizzaInProgress.sauce])
 
-func _on_toppings_button_pressed(button):
-	if pizzaInProgress.cheese == "":
+func _on_topping_button_pressed(topping):
+	if !pizzaInProgress.isCheeseSet():
 		displayFlashMessage("can't add toppings until cheese is added")
 		return
 	
-	var addingExtra = pizzaInProgress.toppings.has(button.name)
-	pizzaInProgress.toppings.append(button.name)
+	var addingExtra = pizzaInProgress.hasTopping(topping)
+	var toppingName = Constants.TOPPINGS.keys()[topping]
+	pizzaInProgress.toppings.append(topping)
 	
 	if addingExtra:
-		displayFlashMessage("adding more %s" % button.name)
+		displayFlashMessage("adding more %s" % toppingName)
 	else:
-		displayFlashMessage("adding %s" % button.name)
+		displayFlashMessage("adding %s" % toppingName)
 
 func _on_add_cheese_button_pressed():
-	if pizzaInProgress.sauce == "":
+	if !pizzaInProgress.isSauceSet():
 		displayFlashMessage("can't add cheese until sauce is chosen")
 		return
-	if pizzaInProgress.toppings.size() > 0:
+	elif pizzaInProgress.hasToppings():
 		displayFlashMessage("can't add cheese after toppings are added")
+		return	
+	elif pizzaInProgress.cheese == Constants.CHEESES.heavy: 
+		displayFlashMessage("there's no room for any more cheese!")
 		return
-		
-	if pizzaInProgress.cheese == "extra": return
 	
-	if pizzaInProgress.cheese == "regular":
-		pizzaInProgress.cheese = "extra"
-	elif pizzaInProgress.cheese == "light":
-		pizzaInProgress.cheese = "regular"
-	else:
-		pizzaInProgress.cheese = "light"
+	pizzaInProgress.addCheese()
 	
-	displayFlashMessage("using a %s amount of cheese" % pizzaInProgress.cheese)
+	displayFlashMessage("using a %s amount of cheese" % Constants.CHEESES.keys()[pizzaInProgress.cheese])
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if pizzaInProgress.size > -1:
-		$PizzaInProgress/RichTextLabel.text = "size: %s\nsauce: %s\ncheese: %s\ntoppings: %s" % [Constants.PIZZA_SIZE_LABELS[pizzaInProgress.size], pizzaInProgress.sauce, pizzaInProgress.cheese, PoolStringArray(pizzaInProgress.toppings).join(", ")]
+	if pizzaInProgress.isSizeSet():
+		$PizzaInProgress/RichTextLabel.text = pizzaInProgress.getDescriptionString()
 	else:
 		$PizzaInProgress/RichTextLabel.text = "select size to begin making a pizza"
 		
