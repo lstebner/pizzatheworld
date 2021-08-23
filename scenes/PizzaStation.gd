@@ -13,11 +13,13 @@ func _ready():
 	resetPizzaInProgress() #initializes object properties
 	
 	var addCheeseButton = $Cheeses/HBoxContainer/AddCheeseButton
+	var noCheeseButton = $Cheeses/HBoxContainer/NoCheeseButton
 	var nextReceiptButton = $Receipt/VBoxContainer/HBoxContainer/NextReceipt
 	var previousReceiptButton = $Receipt/VBoxContainer/HBoxContainer/PrevReceipt
 	var completedReceiptButton = $Receipt/VBoxContainer/HBoxContainer/CompletedReceipt
 	
 	addCheeseButton.connect("pressed", self, "_on_add_cheese_button_pressed")
+	noCheeseButton.connect("pressed", self, "_on_no_cheese_button_pressed")
 	nextReceiptButton.connect("pressed", self, "incrementCurrentReceiptIndex")
 	previousReceiptButton.connect("pressed", self, "decrementCurrentReceiptIndex")
 	completedReceiptButton.connect("pressed", self, "markCurrentReceiptCompleted")
@@ -134,7 +136,7 @@ func _on_add_cheese_button_pressed():
 		return
 	elif pizzaInProgress.hasToppings():
 		displayFlashMessage("can't add cheese after toppings are added")
-		return	
+		return
 	elif pizzaInProgress.cheese == Constants.CHEESES.heavy: 
 		displayFlashMessage("there's no room for any more cheese!")
 		return
@@ -142,6 +144,17 @@ func _on_add_cheese_button_pressed():
 	pizzaInProgress.addCheese()
 	
 	displayFlashMessage("using a %s amount of cheese" % Constants.CHEESES.keys()[pizzaInProgress.cheese])
+
+func _on_no_cheese_button_pressed():
+	if !pizzaInProgress.isSauceSet():
+		displayFlashMessage("choose sauce first")
+		return
+	elif pizzaInProgress.hasToppings():
+		displayFlashMessage("can't change cheese after toppings are added")
+		return
+	
+	pizzaInProgress.setNoCheese()
+	displayFlashMessage("no cheese")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

@@ -188,6 +188,12 @@ margin_right = 85.0
 margin_bottom = 40.0
 text = "add cheese"
 
+[node name="NoCheeseButton" type="Button" parent="Cheeses/HBoxContainer"]
+margin_left = 99.0
+margin_right = 177.0
+margin_bottom = 40.0
+text = "no cheese"
+
 [node name="Receipt" type="Node2D" parent="."]
 position = Vector2( 193.882, 33.9028 )
 

@@ -173,16 +173,16 @@ __meta__ = {
 }
 
 [node name="CancelOrder" type="Button" parent="actions/GridContainer"]
-margin_right = 53.0
+margin_right = 45.0
 margin_bottom = 20.0
-text = "cancel"
+text = "reset"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="SubmitOrder" type="Button" parent="actions/GridContainer"]
-margin_left = 63.0
-margin_right = 120.0
+margin_left = 55.0
+margin_right = 112.0
 margin_bottom = 20.0
 text = "submit"
 __meta__ = {

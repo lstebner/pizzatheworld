@@ -54,6 +54,9 @@ class Pizza:
 		else:
 			cheese = Constants.CHEESES.light
 		
+	func setNoCheese():
+		cheese = Constants.CHEESES.none
+		
 	func finishPrep():
 		if !isComplete(): return
 		

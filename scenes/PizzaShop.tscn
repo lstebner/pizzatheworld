@@ -99,7 +99,7 @@ position = Vector2( 1544.32, 265.872 )
 position = Vector2( 1320.02, 1126.95 )
 
 [node name="Counter" parent="locations" instance=ExtResource( 4 )]
-position = Vector2( 14.1788, 1122.16 )
+position = Vector2( 14.1788, 1121.77 )
 
 [node name="CurrentSceneCamera" type="Camera2D" parent="."]
 anchor_mode = 0
