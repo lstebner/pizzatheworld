@@ -2,12 +2,6 @@ extends Node2D
 
 signal leave
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-const ORDER_MESSAGE = "hi there... i'll take a 6 inch pizza, with marinara sauce, extra cheese, mushrooms, and ... . .. olives."
-
 const DialogBubble = preload("res://scenes/DialogBubble.tscn")
 
 var customers = []

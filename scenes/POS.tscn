@@ -22,7 +22,7 @@ __meta__ = {
 }
 
 [node name="size" type="Node2D" parent="."]
-position = Vector2( 69.2063, 70.3793 )
+position = Vector2( 16.0698, 69.4043 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="size"]
 margin_right = 40.0
@@ -52,7 +52,7 @@ __meta__ = {
 }
 
 [node name="sauce" type="Node2D" parent="."]
-position = Vector2( 72.4009, 153.597 )
+position = Vector2( 19.2644, 152.622 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="sauce"]
 margin_right = 40.0
@@ -81,7 +81,7 @@ __meta__ = {
 }
 
 [node name="cheese" type="Node2D" parent="."]
-position = Vector2( 73.7308, 231.895 )
+position = Vector2( 20.5943, 230.92 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="cheese"]
 margin_right = 40.0
@@ -104,7 +104,7 @@ custom_constants/hseparation = 10
 columns = 4
 
 [node name="toppings" type="Node2D" parent="."]
-position = Vector2( 75.5146, 307.41 )
+position = Vector2( 22.3781, 306.435 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="toppings"]
 margin_right = 40.0
@@ -128,7 +128,7 @@ custom_constants/hseparation = 10
 columns = 4
 
 [node name="receipt" type="Node2D" parent="."]
-position = Vector2( 391.894, 83.8391 )
+position = Vector2( 459.168, 83.3516 )
 
 [node name="ColorRect" type="ColorRect" parent="receipt"]
 margin_top = -8.91904
@@ -161,7 +161,7 @@ __meta__ = {
 }
 
 [node name="actions" type="Node2D" parent="."]
-position = Vector2( 436.087, 384.654 )
+position = Vector2( 503.361, 384.167 )
 
 [node name="GridContainer" type="GridContainer" parent="actions"]
 margin_right = 40.0
@@ -190,7 +190,7 @@ __meta__ = {
 }
 
 [node name="clock" type="Node2D" parent="."]
-position = Vector2( 456.331, 9.30173 )
+position = Vector2( 523.605, 8.81424 )
 
 [node name="datetime" type="Label" parent="clock"]
 margin_right = 40.0
@@ -203,10 +203,10 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_left = 394.868
-margin_top = 344.656
-margin_right = 574.868
-margin_bottom = 384.656
+margin_left = 462.142
+margin_top = 344.169
+margin_right = 642.142
+margin_bottom = 384.169
 custom_constants/separation = 40
 __meta__ = {
 "_edit_use_anchors_": false

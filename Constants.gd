@@ -45,6 +45,10 @@ enum TOPPINGS {
 	chikun,
 	basil,
 	tomatoes,
+	jalapeno,
+	bananaPeppers,
+	pepperoni,
+	bellPeppers,
 }
 
 enum SAUCES {
@@ -59,13 +63,6 @@ enum CHEESES {
 	normal,
 	heavy,
 	none,
-}
-
-const PIZZA_SIZE_LABELS = {
-	PIZZA_SIZES.six: "6\"",
-	PIZZA_SIZES.ten: "10\"",
-	PIZZA_SIZES.twelve: "12\"",
-	PIZZA_SIZES.fourteen: "14\"",
 }
 
 const PIZZA_BAKE_TIMES = {

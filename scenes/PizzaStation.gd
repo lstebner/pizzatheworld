@@ -38,21 +38,21 @@ func createButtons():
 	for size in Constants.PIZZA_SIZES.values():
 		var button = Button.new()
 		button.add_to_group("pizza_station_buttons")
-		button.text = Constants.PIZZA_SIZE_LABELS[size]
+		button.text = Names.SIZES[size]
 		button.connect("pressed", self, "_on_size_button_pressed", [size])
 		$Pans/VBoxContainer.add_child(button)
 	
 	for topping in Constants.TOPPINGS.values():
 		var button = Button.new()
 		button.add_to_group("pizza_station_buttons")
-		button.text = Constants.TOPPINGS.keys()[topping]
+		button.text = Names.TOPPINGS[topping]
 		button.connect("pressed", self, "_on_topping_button_pressed", [topping])
 		$Toppings/GridContainer.add_child(button)
 		
 	for sauce in Constants.SAUCES.values():
 		var button = Button.new()
 		button.add_to_group("pizza_station_buttons")
-		button.text = Constants.SAUCES.keys()[sauce]
+		button.text = Names.SAUCES[sauce]
 		button.connect("pressed", self, "_on_sauce_button_pressed", [sauce])
 		$Sauces/VBoxContainer.add_child(button)
 
@@ -114,7 +114,7 @@ func _on_sauce_button_pressed(sauce):
 		return
 		
 	pizzaInProgress.sauce = sauce
-	displayFlashMessage("%s sauce selected" % Constants.SAUCES.keys()[pizzaInProgress.sauce])
+	displayFlashMessage("%s sauce selected" % Names.SAUCES[pizzaInProgress.sauce])
 
 func _on_topping_button_pressed(topping):
 	if !pizzaInProgress.isCheeseSet():
@@ -122,7 +122,7 @@ func _on_topping_button_pressed(topping):
 		return
 	
 	var addingExtra = pizzaInProgress.hasTopping(topping)
-	var toppingName = Constants.TOPPINGS.keys()[topping]
+	var toppingName = Names.TOPPINGS[topping]
 	pizzaInProgress.toppings.append(topping)
 	
 	if addingExtra:
@@ -143,7 +143,7 @@ func _on_add_cheese_button_pressed():
 	
 	pizzaInProgress.addCheese()
 	
-	displayFlashMessage("using a %s amount of cheese" % Constants.CHEESES.keys()[pizzaInProgress.cheese])
+	displayFlashMessage("using a %s amount of cheese" % Names.CHEESES[pizzaInProgress.cheese])
 
 func _on_no_cheese_button_pressed():
 	if !pizzaInProgress.isSauceSet():

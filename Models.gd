@@ -99,7 +99,7 @@ class Pizza:
 	func setSize(newSize):
 		size = newSize
 		bakeTime = Constants.PIZZA_BAKE_TIMES[size]
-		sizeLabel = Constants.PIZZA_SIZE_LABELS[size]
+		sizeLabel = Names.SIZES[size]
 		
 	func isComplete():
 		# toppings are considered optional, everything else is required
@@ -116,12 +116,12 @@ class Pizza:
 			toppingsString = "none"
 		else:
 			for topping in toppings:
-				toppingsString += "%s, " % Constants.TOPPINGS.keys()[topping]
+				toppingsString += "%s, " % Names.TOPPINGS[topping]
 		
 		desc += "id: %s\n" % id
 		desc += "size: %s\n" % sizeLabel
-		desc += "sauce: %s\n" % Constants.SAUCES.keys()[sauce]
-		desc += "cheese: %s\n" % Constants.CHEESES.keys()[cheese]
+		desc += "sauce: %s\n" % Names.SAUCES[sauce]
+		desc += "cheese: %s\n" % Names.CHEESES[cheese]
 		desc += "toppings: %s\n" % toppingsString
 		desc += "status: %s\n" % Constants.PIZZA_STATUSES.keys()[status]
 		
@@ -226,10 +226,10 @@ class Receipt:
 		
 	func lineItemsString():
 		var items = ""
-		var toppingNames = Constants.TOPPINGS.keys()
-		var sauceNames = Constants.SAUCES.keys()
-		var cheeseNames = Constants.CHEESES.keys()
-		var sizeNames = Constants.PIZZA_SIZE_LABELS
+		var toppingNames = Names.TOPPINGS
+		var sauceNames = Names.SAUCES
+		var cheeseNames = Names.CHEESES
+		var sizeNames = Names.SIZES
 			
 		for item in lineItems:
 			var newLineItem = ""
@@ -311,24 +311,33 @@ class Customer:
 	func dialogForOrder():
 		var chosenPizza = desiredPizzas[rng.randi() % desiredPizzas.size()]
 		var dialog = []
+		var greetings = ["hello", "hi", "good afternoon", "yo", ""]
+		var randomGreeting = greetings[rng.randi() % greetings.size()]
 		
 		# greeting
-		dialog.append("hello")
+		if randomGreeting != "":
+			dialog.append(randomGreeting)
 		# size
-		dialog.append("I would like a %s pizza," % Constants.PIZZA_SIZE_LABELS[chosenPizza.size])
+		dialog.append("I would like a %s pizza," % Names.SIZES[chosenPizza.size])
 		# sauce
-		dialog.append("with %s sauce," % Constants.SAUCES.keys()[chosenPizza.sauce])
+		if chosenPizza.sauce == Constants.SAUCES.none:
+			dialog.append("without sauce")
+		else:
+			dialog.append("with %s sauce," % Names.SAUCES[chosenPizza.sauce])
 		# cheese
-		dialog.append("%s cheese," % Constants.CHEESES.keys()[chosenPizza.cheese])
+		if chosenPizza.cheese == Constants.CHEESES.none:
+			dialog.append("without cheese")
+		else:
+			dialog.append("%s cheese," % Names.CHEESES[chosenPizza.cheese])
 		# toppings
 		if chosenPizza.hasToppings():
 			var toppingsString = "and topped with "
 			if chosenPizza.numToppings() == 1:
-				toppingsString += Constants.TOPPINGS.keys()[chosenPizza.toppings[0]]
+				toppingsString += Names.TOPPINGS[chosenPizza.toppings[0]]
 			else:
 				for t in chosenPizza.toppings.slice(0, chosenPizza.toppings.size() - 1):
-					toppingsString += "%s..." % Constants.TOPPINGS.keys()[t]
-				toppingsString += " and %s" % Constants.TOPPINGS.keys()[chosenPizza.toppings[-1]]
+					toppingsString += "%s..." % Names.TOPPINGS[t]
+				toppingsString += " and %s" % Names.TOPPINGS[chosenPizza.toppings[-1]]
 			dialog.append(toppingsString)
 		else:
 			dialog.append("and that's it!")
