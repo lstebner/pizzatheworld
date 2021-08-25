@@ -9,6 +9,9 @@ func _ready():
 	createAllButtons()
 	$actions/GridContainer/SubmitOrder.connect("pressed", self, "_on_submit_order_pressed")
 	$actions/GridContainer/CancelOrder.connect("pressed", self, "_on_cancel_order_pressed")
+
+func _process(delta):
+	$clock/datetime.text = GlobalWorld.formattedDateString()
 	
 func createAllButtons():
 	for size in Constants.PIZZA_SIZES.values():
