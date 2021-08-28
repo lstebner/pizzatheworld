@@ -5,6 +5,7 @@ enum locations {
 	Counter,
 	Office,
 	Ovens,
+	Deliveries,
 }
 
 const Places = {
@@ -12,6 +13,7 @@ const Places = {
 	locations.Ovens: null,
 	locations.Counter: null,
 	locations.Office: null,
+	locations.Deliveries: null,
 }
 
 
@@ -20,6 +22,7 @@ func _ready():
 	Places[locations.PizzaStation] = $locations/PizzaStation
 	Places[locations.Ovens] = $locations/Ovens
 	Places[locations.Counter] = $locations/Counter
+	Places[locations.Deliveries] = $locations/Deliveries
 	
 	for location in Places.values():
 		if location:
@@ -29,6 +32,7 @@ func _ready():
 	$CounterButton.connect("pressed", self, "_on_location_button_pressed", [locations.Counter])
 	$OfficeButton.connect("pressed", self, "_on_location_button_pressed", [locations.Office])
 	$OvensButton.connect("pressed", self, "_on_location_button_pressed", [locations.Ovens])
+	$DeliveriesButton.connect("pressed", self, "_on_location_button_pressed", [locations.Deliveries])
 
 func _process(delta):
 	var openOrdersString = ""

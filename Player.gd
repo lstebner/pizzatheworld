@@ -9,18 +9,7 @@ class PizzaShop:
 	var AvailablePans = Constants.PIZZA_SIZES
 	var AvailableSauces = Constants.SAUCES
 	var AvailableCheeses = Constants.CHEESES
-	var Ovens = [{
-		"currentTemp": 0,
-		"targetTemp": 0,
-		"minTemp": 200,
-		"maxTemp": 750,
-		"style": "gas",
-		"material": "stainless_steel",
-		"max_capacity": 4,
-		"turnedOn": false,
-		"tempControlStepAmount": 50,
-		"items": [],
-	}]
+	var Ovens = [Models.Oven.new()]
 	var Pizzas = []
 	var Stats = {
 		"pizzasMade": 0,
@@ -29,6 +18,7 @@ class PizzaShop:
 		"customersServed": 0,
 	}
 	var Balance = 0
+	var Phone = Models.Phone.new()
 	
 	var _id_incrementer = 0
 	
@@ -36,4 +26,14 @@ class PizzaShop:
 		_id_incrementer += 1
 		return _id_incrementer
 		
+class ResidentsFactory:
+	var residents = []
+	
+	func generateResident():
+		residents.append(Models.Customer.new())
+		
+	func get(idx):
+		return residents[idx]
+		
 var Shop = PizzaShop.new()
+var Residents = ResidentsFactory.new()

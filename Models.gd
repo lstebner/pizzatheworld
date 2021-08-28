@@ -132,35 +132,7 @@ class Receipt:
 	var status = Constants.RECEIPT_STATUSES.new
 	var lineItems = []
 	var items = []
-	
-	var PRICES = {
-		Constants.RECEIPT_LINE_ITEMS.topping: {
-			Constants.TOPPINGS.mushrooms: .5,
-			Constants.TOPPINGS.olives: .3,
-			Constants.TOPPINGS.chikun: 1,
-			Constants.TOPPINGS.basil: .2,
-			Constants.TOPPINGS.tomatoes: .2,
-			Constants.TOPPINGS.onions: .15,
-		},
-		Constants.RECEIPT_LINE_ITEMS.sauce: {
-			Constants.SAUCES.alfredo: 1,
-			Constants.SAUCES.marinara: .5,
-			Constants.SAUCES.bbq: 1.3,
-			Constants.SAUCES.none: 0,	
-		},
-		Constants.RECEIPT_LINE_ITEMS.cheese: {
-			Constants.CHEESES.light: .75,
-			Constants.CHEESES.normal: 1,
-			Constants.CHEESES.heavy: 2,
-			Constants.CHEESES.none: 0,
-		},
-		Constants.RECEIPT_LINE_ITEMS.size: {
-			Constants.PIZZA_SIZES.six: 4,
-			Constants.PIZZA_SIZES.ten: 7,
-			Constants.PIZZA_SIZES.twelve: 10,
-			Constants.PIZZA_SIZES.fourteen: 12,
-		}
-	}
+	var timeCreated = null
 	
 	func changeStatus(newStatus):
 		status = newStatus
@@ -171,8 +143,10 @@ class Receipt:
 		
 		if type == Constants.RECEIPT_LINE_ITEMS.tax or type == Constants.RECEIPT_LINE_ITEMS.total:
 			cost = value
-		elif PRICES.has(type) and PRICES[type].has(value):
-			cost = PRICES[type][value]
+		elif type == Constants.RECEIPT_LINE_ITEMS.timestamp:
+			cost = "-"
+		elif Constants.PRICES.has(type) and Constants.PRICES[type].has(value):
+			cost = Constants.PRICES[type][value]
 		
 		lineItems.append([type, value, cost])
 	
@@ -223,6 +197,8 @@ class Receipt:
 		
 		addLineItem(Constants.RECEIPT_LINE_ITEMS.tax, tax)
 		addLineItem(Constants.RECEIPT_LINE_ITEMS.total, total)
+		addLineItem(Constants.RECEIPT_LINE_ITEMS.timestamp, GlobalWorld.timestamp())
+		timeCreated = GlobalWorld.getCurrentTime()
 		
 	func lineItemsString():
 		var items = ""
@@ -255,19 +231,23 @@ class Receipt:
 				
 				Constants.RECEIPT_LINE_ITEMS.total:
 					newLineItem = "=TOTAL - %s" % [cost]
+
+				Constants.RECEIPT_LINE_ITEMS.timestamp:
+					newLineItem = "TIME @ %s" % [value]
 					
 			items += "\n%s" % newLineItem
 		
 		return items
 
 class Customer:
-	var desiredPizzas = []
+	var Orders = []
+	var openOrder = null
+	var pizzaForOpenOrder = null
 	var rng = RandomNumberGenerator.new()
+	var name = ""
 	
 	func _init():
-		rng.randomize()
-		for i in 5:
-			desiredPizzas.append(pickPizza())
+		name = Constants.CUSTOMER_NAMES[rng.randi() % Constants.CUSTOMER_NAMES.size()]
 		
 	func pickPizza():
 		var pizza = Models.Pizza.new()
@@ -308,11 +288,20 @@ class Customer:
 			
 		return toppings
 		
+	func choosePizzaToOrder():
+		pizzaForOpenOrder = pickPizza()
+		return pizzaForOpenOrder
+		
 	func dialogForOrder():
-		var chosenPizza = desiredPizzas[rng.randi() % desiredPizzas.size()]
+		var chosenPizza = choosePizzaToOrder()
 		var dialog = []
-		var greetings = ["hello", "hi", "good afternoon", "yo", ""]
+		var greetings = ["hello", "hi", "yo", ""]
 		var randomGreeting = greetings[rng.randi() % greetings.size()]
+		
+		if GlobalWorld.currentDate.ampm == "am":
+			greetings.append("good morning")
+		else:
+			greetings.append("good afternoon")
 		
 		# greeting
 		if randomGreeting != "":
@@ -343,4 +332,104 @@ class Customer:
 			dialog.append("and that's it!")
 		
 		return dialog
+	
+	func placeOrderWithReceipt(receipt, pizza):
+		var newOrder = Models.Order.new()
+		newOrder.setReceipt(receipt)
+		newOrder.setDesiredPizza(pizza)
+
+		Orders.append(newOrder)
+		openOrder = newOrder
+
+	func fulfillOrder(items):
+		openOrder.fulfill()
 		
+class Order:
+	var desiredPizza = null
+	var fulfillmentPizza = null
+	var status = Constants.ORDER_STATUSES.new
+	var pizzasMatch = true
+	var receipt = null
+	
+	func setDesiredPizza(pizza):
+		desiredPizza = pizza
+	
+	func setReceipt(theReceipt):
+		receipt = theReceipt
+
+	func fulfill(pizza):
+		status = Constants.ORDER_STATUSES.fulfilled
+		fulfillmentPizza = pizza
+		pizzasMatch = checkIfPizzasMatch(desiredPizza, fulfillmentPizza)
+	
+	func checkIfPizzasMatch(pizza1, pizza2):
+		print("checkIfPizzasMatch is not yet implemented")
+		return true
+		
+class Phone:
+	signal line_disconnected
+	signal call_accepted(line)
+	
+	var numLines = 1
+	var lines = [{
+		"isRinging": false,
+		"isBusy": false,
+		"disconnected": false,
+		"customer": null,
+	}]
+	var disconnectChance = .02
+	var rng = RandomNumberGenerator.new()
+	
+	func incomingCall(customer):
+		var line = getOpenLine()
+		
+		if line:
+			line.isRinging = true
+			line.customer = customer
+			
+			if rng.randf() < disconnectChance:
+				lineDisconnected(line)
+				
+			return Constants.PHONE_SIGNALS.ringing
+		
+		return Constants.PHONE_SIGNALS.busy
+		
+	func lineDisconnected(line):
+		line.disconnected = true
+	
+	func acceptCallOnLine(lineId):
+		if (!lines[lineId].isRinging): return false
+		if (lines[lineId].disconnected):
+			emit_signal("line_disconnected")
+			return hangUpLine(lineId)
+		
+		lines[lineId].isRinging = false
+		lines[lineId].isBusy = true
+		emit_signal("call_accepted", lines[lineId])
+		
+	func hangUpLine(lineId):
+		lines[lineId].isRinging = false
+		lines[lineId].isBusy = false
+		lines[lineId].disconnected = false
+		lines[lineId].customer = null
+		
+	func getOpenLine():
+		var openLine
+		for line in lines:
+			if line.isRinging == false and line.isBusy == false:
+				return line
+		
+		return null
+		
+class Oven:
+	var currentTemp = 0
+	var targetTemp = 0
+	var minTemp = 0
+	var maxTemp = 750
+	var style = "gas"
+	var material = "stainless_steel"
+	var max_capacity = 4
+	var turnedOn = false
+	var tempControlStepAmount = 50
+	var items = []
+

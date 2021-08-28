@@ -27,12 +27,12 @@ margin_bottom = 99.8122
 [node name="POS" parent="." instance=ExtResource( 2 )]
 position = Vector2( 306.699, 133.821 )
 
-[node name="NextCustomerButton" type="Button" parent="."]
+[node name="AnswerPhone" type="Button" parent="."]
 margin_left = 29.9077
 margin_top = 20.9354
 margin_right = 134.908
 margin_bottom = 40.9354
-text = "next customer"
+text = "answer phone"
 __meta__ = {
 "_edit_use_anchors_": false
 }

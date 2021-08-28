@@ -1,8 +1,9 @@
 extends Node2D
 
+signal receipt_finalized(receipt)
+
 var inputs = []
 var receipt = null
-
 
 func _ready():
 	reset()
@@ -54,6 +55,7 @@ func reset():
 func submitReceipt():
 	receipt.finalize()
 	Player.Shop.OpenOrders.append(receipt)
+	emit_signal("receipt_finalized", receipt)
 	reset()
 
 func _on_size_button_pressed(size):

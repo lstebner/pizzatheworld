@@ -9,16 +9,17 @@ var SAUCES = {
 }
 
 var TOPPINGS = {
+	Constants.TOPPINGS.bananaPeppers: "Banana Peppers",
+	Constants.TOPPINGS.basil: "Basil",
+	Constants.TOPPINGS.bellPeppers: "Bell Peppers",
+	Constants.TOPPINGS.chikun: "Chik'un",
+	Constants.TOPPINGS.jalapeno: "Jalapeño",
 	Constants.TOPPINGS.mushrooms: "Mushrooms",
 	Constants.TOPPINGS.onions: "Onions",
 	Constants.TOPPINGS.olives: "Olives",
-	Constants.TOPPINGS.chikun: "Chik'un",
-	Constants.TOPPINGS.basil: "Basil",
-	Constants.TOPPINGS.tomatoes: "Tomatoes",
-	Constants.TOPPINGS.jalapeno: "Jalapeño",
-	Constants.TOPPINGS.bananaPeppers: "Banana Peppers",
 	Constants.TOPPINGS.pepperoni: "Pepperoni",
-	Constants.TOPPINGS.bellPeppers: "Bell Peppers"
+	Constants.TOPPINGS.spinach: "Spinach",
+	Constants.TOPPINGS.tomatoes: "Tomatoes",
 }
 
 var CHEESES = {

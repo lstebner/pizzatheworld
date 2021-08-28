@@ -30,6 +30,9 @@ func _process(delta):
 	timeSinceEpoch += delta
 	updateDate()
 
+func getCurrentTime():
+	return timeSinceEpoch
+
 func freezeTime():
 	timeIsFrozen = true
 
@@ -37,8 +40,20 @@ func unfreezeTime():
 	timeIsFrozen = false
 
 func updateDate():
-	var time = int(timeSinceEpoch)
-	if time == 0: return
+	currentDate = getDateFromEpochTime(timeSinceEpoch)
+
+func getDateFromEpochTime(epochTime):
+	var date = {
+		"hour": 0,
+		"minute": 0,
+		"dayOfMonth": 0,
+		"monthOfYear": 0,
+		"year": 0,
+		"ampm": "am",
+	}
+	var time = int(epochTime)
+
+	if time == 0: return date
 
 	var epochYears = floor(time / SECONDS_IN_YEAR)
 	var epochMonths = floor(time / SECONDS_IN_MONTH)
@@ -46,19 +61,24 @@ func updateDate():
 	var epochHours = floor(time / SECONDS_IN_HOUR)
 	var epochMinutes = floor(time / SECONDS_IN_MINUTE)
 
-	currentDate.year = 1 + epochYears
-	currentDate.monthOfYear = 1 + epochMonths - epochYears * MONTHS_IN_YEAR
-	currentDate.dayOfMonth = 1 + epochDays - epochMonths * DAYS_IN_MONTH
-	currentDate.hour = int(epochHours) % HOURS_IN_DAY
-	currentDate.minute = int(epochMinutes) % SECONDS_IN_HOUR * (60 / SECONDS_IN_HOUR) # minutes are adjusted to act like a 60 minute clock regardless of how many minutes per hour the game ticks
+	date.year = 1 + epochYears
+	date.monthOfYear = 1 + epochMonths - epochYears * MONTHS_IN_YEAR
+	date.dayOfMonth = 1 + epochDays - epochMonths * DAYS_IN_MONTH
+	date.hour = int(epochHours) % HOURS_IN_DAY
+	date.minute = int(epochMinutes) % SECONDS_IN_HOUR * (60 / SECONDS_IN_HOUR) # minutes are adjusted to act like a 60 minute clock regardless of how many minutes per hour the game ticks
 	
-	if currentDate.hour < HOURS_IN_DAY / 2:
-		currentDate.ampm = "am"
+	if date.hour < HOURS_IN_DAY / 2:
+		date.ampm = "am"
 	else:
-		currentDate.ampm = "pm"
+		date.ampm = "pm"
+
+	return date
 	
 func formattedDateString():
 	return "Day %s, Month %s, Year %s\n%s:%s%s" % [zeroPad(currentDate.dayOfMonth), zeroPad(currentDate.monthOfYear), zeroPad(currentDate.year), zeroPad(currentDate.hour), zeroPad(currentDate.minute), currentDate.ampm]
+
+func timestamp():
+	return "%s/%s/%s %s:%s" % [currentDate.monthOfYear, currentDate.dayOfMonth, currentDate.year, currentDate.hour, currentDate.minute]
 
 func zeroPad(num):
 	if num < 10: return "0%s" % num
