@@ -40,17 +40,17 @@ func _process(delta):
 	for order in Player.Shop.OpenOrders:
 		var orderString = ""
 		var nowBakingString = ""
-		var hasBeenMade = order.items.size() > 0
-		var isComplete = order.status == Constants.RECEIPT_STATUSES.baked
+		var hasBeenMade = order.receipt.items.size() > 0
+		var isComplete = order.receipt.status == Constants.RECEIPT_STATUSES.baked
 		
-		if order.status == Constants.RECEIPT_STATUSES.baking:
+		if order.receipt.status == Constants.RECEIPT_STATUSES.baking:
 			nowBakingString = "now baking"
 		if hasBeenMade:
 			nowBakingString += "\nMADE"
 		if isComplete:
 			nowBakingString += "- ready"
-		nowBakingString += "\n%s" % Constants.RECEIPT_STATUSES.keys()[order.status]
-		openOrdersString += "\n------\n%s\n%s" % [nowBakingString, order.lineItemsString()]
+		nowBakingString += "\n%s" % Constants.RECEIPT_STATUSES.keys()[order.receipt.status]
+		openOrdersString += "\n------\n%s\n%s" % [nowBakingString, order.receipt.lineItemsString()]
 
 	$OpenOrdersLabel.text = openOrdersString
 		
@@ -66,6 +66,8 @@ func _on_location_button_pressed(loc):
 		locations.Ovens:
 			print("checking ovens")
 			$locations/Ovens.refreshPizzasList()
+		locations.Deliveries:
+			$locations/Deliveries.setupOrdersList()
 			
 	if Places[loc]:
 		viewScreen(Places[loc])

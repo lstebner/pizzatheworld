@@ -26,19 +26,74 @@ __meta__ = {
 [node name="open_orders" type="Node2D" parent="."]
 position = Vector2( 116.669, 131.723 )
 
-[node name="ItemList" type="ItemList" parent="open_orders"]
-margin_right = 240.0
-margin_bottom = 300.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="Label" type="Label" parent="open_orders"]
 margin_left = 0.765854
 margin_top = -24.5074
 margin_right = 40.7659
 margin_bottom = -10.5074
-text = "open orders::"
+text = "open orders:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="open_orders"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ItemList" type="ItemList" parent="open_orders/HBoxContainer"]
+margin_right = 200.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 200, 300 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="open_orders/HBoxContainer"]
+margin_left = 204.0
+margin_right = 444.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 240, 0 )
+
+[node name="pizzas" type="Node2D" parent="."]
+position = Vector2( 579.757, 132.753 )
+
+[node name="Label" type="Label" parent="pizzas"]
+margin_left = 0.518555
+margin_top = -23.3355
+margin_right = 44.5186
+margin_bottom = -9.33548
+text = "pizzas:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="pizzas"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ItemList" type="ItemList" parent="pizzas/HBoxContainer"]
+margin_right = 150.0
+margin_bottom = 250.0
+rect_min_size = Vector2( 150, 250 )
+
+[node name="RichTextLabel" type="RichTextLabel" parent="pizzas/HBoxContainer"]
+margin_left = 154.0
+margin_right = 354.0
+margin_bottom = 250.0
+rect_min_size = Vector2( 200, 0 )
+
+[node name="Fulfill" type="Button" parent="."]
+margin_left = 385.295
+margin_top = 449.597
+margin_right = 526.295
+margin_bottom = 469.597
+text = "fulfill selected order"
 __meta__ = {
 "_edit_use_anchors_": false
 }

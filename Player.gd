@@ -21,10 +21,15 @@ class PizzaShop:
 	var Phone = Models.Phone.new()
 	
 	var _id_incrementer = 0
+	var _receipt_id_incrementer = 0
 	
 	func nextId():
 		_id_incrementer += 1
 		return _id_incrementer
+		
+	func nextReceiptId():
+		_receipt_id_incrementer += 1
+		return _receipt_id_incrementer
 		
 class ResidentsFactory:
 	var residents = []

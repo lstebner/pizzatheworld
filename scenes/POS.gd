@@ -54,7 +54,6 @@ func reset():
 
 func submitReceipt():
 	receipt.finalize()
-	Player.Shop.OpenOrders.append(receipt)
 	emit_signal("receipt_finalized", receipt)
 	reset()
 

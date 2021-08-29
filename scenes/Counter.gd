@@ -40,7 +40,7 @@ func _on_answer_phone_pressed():
 	clearExistingDialogBubbles()
 	currentCustomerIndex += 1
 	if currentCustomerIndex > customers.size() - 1:
-		Player.Shop.generateResident()
+		Player.Residents.generateResident()
 	
 	orderDialog = customers[currentCustomerIndex].dialogForOrder()
 	currentDialogIndex = 0
@@ -58,4 +58,11 @@ func _on_pos_receipt_finalized(receipt):
 	if !customer: return
 	
 	var pizza = customer.pizzaForOpenOrder
-	customer.placeOrderWithReceipt(receipt, pizza)
+	var newOrder = Models.Order.new()
+	
+	newOrder.setDesiredPizza(pizza)
+	newOrder.setReceipt(receipt)
+	newOrder.setCustomerName(customer.name)
+
+	Player.Shop.OpenOrders.append(newOrder)
+	customer.setOpenOrder(newOrder)

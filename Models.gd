@@ -128,11 +128,15 @@ class Pizza:
 		return desc
 
 class Receipt:
+	var id = -1
 	var pizza = Pizza.new()
 	var status = Constants.RECEIPT_STATUSES.new
 	var lineItems = []
 	var items = []
 	var timeCreated = null
+	
+	func _init():
+		id = Player.Shop.nextReceiptId()
 	
 	func changeStatus(newStatus):
 		status = newStatus
@@ -245,8 +249,10 @@ class Customer:
 	var pizzaForOpenOrder = null
 	var rng = RandomNumberGenerator.new()
 	var name = ""
+	var hunger = 0
 	
 	func _init():
+		rng.randomize()
 		name = Constants.CUSTOMER_NAMES[rng.randi() % Constants.CUSTOMER_NAMES.size()]
 		
 	func pickPizza():
@@ -333,16 +339,13 @@ class Customer:
 		
 		return dialog
 	
-	func placeOrderWithReceipt(receipt, pizza):
-		var newOrder = Models.Order.new()
-		newOrder.setReceipt(receipt)
-		newOrder.setDesiredPizza(pizza)
-
-		Orders.append(newOrder)
-		openOrder = newOrder
+	func setOpenOrder(order):
+		openOrder = order
 
 	func fulfillOrder(items):
 		openOrder.fulfill()
+		Orders.append(openOrder)
+		openOrder = null
 		
 class Order:
 	var desiredPizza = null
@@ -350,12 +353,16 @@ class Order:
 	var status = Constants.ORDER_STATUSES.new
 	var pizzasMatch = true
 	var receipt = null
+	var customerName = ""
 	
 	func setDesiredPizza(pizza):
 		desiredPizza = pizza
 	
 	func setReceipt(theReceipt):
 		receipt = theReceipt
+
+	func setCustomerName(name):
+		customerName = name
 
 	func fulfill(pizza):
 		status = Constants.ORDER_STATUSES.fulfilled
@@ -379,6 +386,9 @@ class Phone:
 	}]
 	var disconnectChance = .02
 	var rng = RandomNumberGenerator.new()
+	
+	func _init():
+		rng.randomize()
 	
 	func incomingCall(customer):
 		var line = getOpenLine()
