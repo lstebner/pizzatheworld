@@ -52,6 +52,9 @@ func _on_insert_pressed():
 
 func _on_remove_pressed():
 	if !item: return
+	if $BakeTimer.time_left > 0:
+		print("can't remove item while baking")
+		return
 	
 	var removedItem = removeItem()
 	emit_signal("item_removed", removedItem)

@@ -54,10 +54,12 @@ func _on_dialog_message_complete():
 
 func _on_pos_receipt_finalized(receipt):
 	var customer = Player.Residents.get(currentCustomerIndex)
-
-	if !customer: return
 	
 	var pizza = customer.pizzaForOpenOrder
+	if !customer or !pizza: 
+		print("receipt finalized without any order")
+		return
+	
 	var newOrder = Models.Order.new()
 	
 	newOrder.setDesiredPizza(pizza)

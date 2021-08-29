@@ -2,8 +2,8 @@ extends Node2D
 
 signal leave
 
-var receipts = Player.Shop.OpenOrders
-var currentReceiptIndex = -1
+var orders = Player.Shop.OpenOrders
+var currentOrderIndex = -1
 
 var pizzaInProgress = null
 
@@ -14,15 +14,15 @@ func _ready():
 	
 	var addCheeseButton = $Cheeses/HBoxContainer/AddCheeseButton
 	var noCheeseButton = $Cheeses/HBoxContainer/NoCheeseButton
-	var nextReceiptButton = $Receipt/VBoxContainer/HBoxContainer/NextReceipt
-	var previousReceiptButton = $Receipt/VBoxContainer/HBoxContainer/PrevReceipt
-	var completedReceiptButton = $Receipt/VBoxContainer/HBoxContainer/CompletedReceipt
+	var nextOrderButton = $Receipt/VBoxContainer/HBoxContainer/NextReceipt
+	var previousOrderButton = $Receipt/VBoxContainer/HBoxContainer/PrevReceipt
+	var completedOrderButton = $Receipt/VBoxContainer/HBoxContainer/CompletedReceipt
 	
 	addCheeseButton.connect("pressed", self, "_on_add_cheese_button_pressed")
 	noCheeseButton.connect("pressed", self, "_on_no_cheese_button_pressed")
-	nextReceiptButton.connect("pressed", self, "incrementCurrentReceiptIndex")
-	previousReceiptButton.connect("pressed", self, "decrementCurrentReceiptIndex")
-	completedReceiptButton.connect("pressed", self, "markCurrentReceiptCompleted")
+	nextOrderButton.connect("pressed", self, "incrementCurrentOrderIndex")
+	previousOrderButton.connect("pressed", self, "decrementCurrentOrderIndex")
+	completedOrderButton.connect("pressed", self, "markCurrentOrderCompleted")
 	
 	$LeaveStation.connect("pressed", self, "_on_leave_station_pressed")
 	$PizzaInProgress/CompleteButton.connect("pressed", self, "_on_complete_pizza_pressed")
@@ -64,24 +64,24 @@ func displayFlashMessage(message):
 	$FlashMessage.text = message;
 	$FlashMessageTimer.start()
 	
-func incrementCurrentReceiptIndex():
-	if currentReceiptIndex < 0 and receipts.size() == 0: return
+func incrementCurrentOrderIndex():
+	if currentOrderIndex < 0 and orders.size() == 0: return
 	
-	currentReceiptIndex += 1
-	if currentReceiptIndex >= receipts.size():
-		currentReceiptIndex -= receipts.size()
+	currentOrderIndex += 1
+	if currentOrderIndex >= orders.size():
+		currentOrderIndex -= orders.size()
 		
-func decrementCurrentReceiptIndex():
-	if currentReceiptIndex < 0: return
+func decrementCurrentOrderIndex():
+	if currentOrderIndex < 0: return
 	
-	currentReceiptIndex -= 1
-	if currentReceiptIndex < 0:
-		currentReceiptIndex += receipts.size()
+	currentOrderIndex -= 1
+	if currentOrderIndex < 0:
+		currentOrderIndex += orders.size()
 
-func markCurrentReceiptCompleted():
-	if currentReceiptIndex < 0: return
+func markCurrentOrderCompleted():
+	if currentOrderIndex < 0: return
 	
-	receipts[currentReceiptIndex].changeStatus(Constants.RECEIPT_STATUSES.prepped)
+	orders[currentOrderIndex].receipt.changeStatus(Constants.RECEIPT_STATUSES.prepped)
 
 func _on_leave_station_pressed():
 	emit_signal("leave")
@@ -94,7 +94,6 @@ func _on_complete_pizza_pressed():
 	pizzaInProgress.changeStatus(Constants.PIZZA_STATUSES.prepped)
 	displayFlashMessage("sending pizza to oven")
 	Player.Shop.Pizzas.append(pizzaInProgress)
-	#receipts[currentReceiptIndex].items.append(pizzaInProgress)
 	
 	resetPizzaInProgress()
 
@@ -163,14 +162,16 @@ func _process(delta):
 	else:
 		$PizzaInProgress/RichTextLabel.text = "select size to begin making a pizza"
 		
-	if currentReceiptIndex > -1:
-		var currentReceipt = receipts[currentReceiptIndex]
+	if currentOrderIndex > -1:
+		var currentOrder = orders[currentOrderIndex]
 		
-		if currentReceipt and currentReceipt.pizza:
+		if currentOrder and currentOrder.receipt.pizza:
+			var currentReceipt = currentOrder.receipt
 			var nowBakingString = ""
 			var hasBeenMade = currentReceipt.items.size() > 0
 			var isComplete = currentReceipt.status == Constants.RECEIPT_STATUSES.baked
 			
+			nowBakingString += "%s/%s" % [currentOrderIndex + 1, orders.size()]
 			if currentReceipt.status == Constants.RECEIPT_STATUSES.baking:
 				nowBakingString = "now baking"
 			if hasBeenMade:
