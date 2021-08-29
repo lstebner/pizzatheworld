@@ -29,6 +29,7 @@ func setupPizzasList():
 func fulfillSelectedOrder(pizza):
 	selectedOrder.fulfill(pizza)
 	updateSelectedOrderInfo()
+	Player.Shop.Balance += selectedOrder.receipt.getTotalWithTax()
 	
 	selectedPizza = null
 	$pizzas/HBoxContainer/ItemList.clear()
@@ -38,6 +39,8 @@ func updateSelectedOrderInfo():
 	
 	selectedOrderString += "selected order: receipt-%s" % selectedOrder.receipt.id
 	selectedOrderString += "\nfor %s" % selectedOrder.customerName
+	if selectedOrder.fulfillmentPizza != null:
+		selectedOrderString += "\nFULFILLED"
 	selectedOrderString += "\n------------\n"
 	selectedOrderString += "receipt:\n%s" % selectedOrder.receipt.lineItemsString()
 	selectedOrderString += "\n------------\n"

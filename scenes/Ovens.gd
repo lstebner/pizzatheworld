@@ -123,21 +123,6 @@ func _on_item_slot_item_removed(removedItem):
 	removedItem.completeBaking()
 	refreshPizzasList()
 	
-	# the logic contained in here should move to the Order model
-	for order in Player.Shop.OpenOrders:
-		if order.receipt.items.size() > 0:
-			var orderIsComplete = true
-			var orderIsBaked = true
-			# todo: move this into a model method such as order.checkIfComplete()
-			for item in order.receipt.items:
-				orderIsBaked = orderIsBaked and item.isBaked()
-				orderIsComplete = orderIsComplete and item.isBoxed()
-			
-			if orderIsComplete:
-				order.receipt.changeStatus(Constants.RECEIPT_STATUSES.fulfilled)
-			elif orderIsBaked:
-				order.receipt.changeStatus(Constants.RECEIPT_STATUSES.baked)
-
 func _on_item_slot_baking_complete(slot):
 	pass
 

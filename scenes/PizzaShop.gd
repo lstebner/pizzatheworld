@@ -40,8 +40,8 @@ func _process(delta):
 	for order in Player.Shop.OpenOrders:
 		var orderString = ""
 		var nowBakingString = ""
-		var hasBeenMade = order.receipt.items.size() > 0
-		var isComplete = order.receipt.status == Constants.RECEIPT_STATUSES.baked
+		var hasBeenMade = false
+		var isComplete = false #order.receipt.status == Constants.RECEIPT_STATUSES.baked
 		
 		if order.receipt.status == Constants.RECEIPT_STATUSES.baking:
 			nowBakingString = "now baking"
@@ -53,6 +53,7 @@ func _process(delta):
 		openOrdersString += "\n------\n%s\n%s" % [nowBakingString, order.receipt.lineItemsString()]
 
 	$OpenOrdersLabel.text = openOrdersString
+	$Balance.text = "$%s" % Player.Shop.Balance
 		
 
 func _on_location_button_pressed(loc):

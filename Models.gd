@@ -134,6 +134,9 @@ class Receipt:
 	var lineItems = []
 	var items = []
 	var timeCreated = null
+	var total = 0
+	var tax = 0
+	var isFinal = false
 	
 	func _init():
 		id = Player.Shop.nextReceiptId()
@@ -145,7 +148,7 @@ class Receipt:
 		var newLineItem = ""
 		var cost = 0
 		
-		if type == Constants.RECEIPT_LINE_ITEMS.tax or type == Constants.RECEIPT_LINE_ITEMS.total:
+		if type == Constants.RECEIPT_LINE_ITEMS.tax or type == Constants.RECEIPT_LINE_ITEMS.total or type == Constants.RECEIPT_LINE_ITEMS.grandTotal:
 			cost = value
 		elif type == Constants.RECEIPT_LINE_ITEMS.timestamp:
 			cost = "-"
@@ -155,25 +158,35 @@ class Receipt:
 		lineItems.append([type, value, cost])
 	
 	func getItemsTotal():
-		var total = 0
+		if isFinal:
+			return total
+			
+		var itemsTotal = 0
 		
 		for item in lineItems:
-			total += item[2]
+			if item[0] != Constants.RECEIPT_LINE_ITEMS.timestamp:
+				itemsTotal += item[2]
 		
-		return total
+		return itemsTotal
 		
-	func getSalesTax(total):
-		return total * Constants.SALES_TAX
+	func getSalesTax(itemsTotal):
+		if isFinal:
+			return tax
+			
+		return itemsTotal * Constants.SALES_TAX
 		
 	func getTotalWithTax():
-		var total = getItemsTotal()
-		var tax = getSalesTax(total)
+		if isFinal:
+			return total + tax
 		
-		return total + tax
+		var itemsTotal = getItemsTotal()
+		var salesTax = getSalesTax(total)
+		
+		return itemsTotal + salesTax
 		
 	func getFormattedTotal():
-		var total = getItemsTotal()
-		var totalAsString = "%s" % total
+		var itemsTotal = getItemsTotal()
+		var totalAsString = "%s" % itemsTotal
 		var cents = totalAsString.substr(totalAsString.find("."))
 		
 		if cents.length() == 0:
@@ -184,8 +197,8 @@ class Receipt:
 		return "$%s" % totalAsString
 		
 	func getFormattedTax():
-		var tax = getSalesTax(getItemsTotal())
-		var taxAsString = "%s" % tax
+		var salesTax = getSalesTax(getItemsTotal())
+		var taxAsString = "%s" % salesTax
 		var cents = taxAsString.substr(taxAsString.find("."))
 		
 		if cents.length() == 0:
@@ -196,11 +209,12 @@ class Receipt:
 		return "$%s" % taxAsString
 	
 	func finalize():
-		var total = getItemsTotal()
-		var tax = getSalesTax(total)
+		total = getItemsTotal()
+		tax = getSalesTax(total)
+		isFinal = true
 		
 		addLineItem(Constants.RECEIPT_LINE_ITEMS.tax, tax)
-		addLineItem(Constants.RECEIPT_LINE_ITEMS.total, total)
+		addLineItem(Constants.RECEIPT_LINE_ITEMS.grandTotal, total + tax)
 		addLineItem(Constants.RECEIPT_LINE_ITEMS.timestamp, GlobalWorld.timestamp())
 		timeCreated = GlobalWorld.getCurrentTime()
 		
@@ -235,6 +249,9 @@ class Receipt:
 				
 				Constants.RECEIPT_LINE_ITEMS.total:
 					newLineItem = "=TOTAL - %s" % [cost]
+				
+				Constants.RECEIPT_LINE_ITEMS.grandTotal:
+					newLineItem = "=GTOTAL - %s" % [cost]
 
 				Constants.RECEIPT_LINE_ITEMS.timestamp:
 					newLineItem = "TIME @ %s" % [value]

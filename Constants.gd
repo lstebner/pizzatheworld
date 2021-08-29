@@ -30,6 +30,7 @@ enum RECEIPT_LINE_ITEMS {
 	tax,
 	timestamp,
 	total,
+	grandTotal,
 }
 
 enum PIZZA_SIZES {

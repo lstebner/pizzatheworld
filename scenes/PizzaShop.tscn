@@ -116,3 +116,12 @@ margin_bottom = 440.866
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Balance" type="Label" parent="."]
+margin_left = 299.692
+margin_top = 40.4011
+margin_right = 339.692
+margin_bottom = 54.4011
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -168,8 +168,8 @@ func _process(delta):
 		if currentOrder and currentOrder.receipt.pizza:
 			var currentReceipt = currentOrder.receipt
 			var nowBakingString = ""
-			var hasBeenMade = currentReceipt.items.size() > 0
-			var isComplete = currentReceipt.status == Constants.RECEIPT_STATUSES.baked
+			var hasBeenMade = false
+			var isComplete = false #currentReceipt.status == Constants.RECEIPT_STATUSES.baked
 			
 			nowBakingString += "%s/%s" % [currentOrderIndex + 1, orders.size()]
 			if currentReceipt.status == Constants.RECEIPT_STATUSES.baking:
