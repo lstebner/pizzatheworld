@@ -1,7 +1,7 @@
 extends Node
 
 const SECONDS_IN_MINUTE = 1
-const MINUTES_IN_HOUR = 20
+const MINUTES_IN_HOUR = 8
 const HOURS_IN_DAY = 24
 const DAYS_IN_MONTH = 30
 const MONTHS_IN_YEAR = 12

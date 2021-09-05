@@ -260,18 +260,117 @@ class Receipt:
 		
 		return items
 
+enum CUSTOMER_STATES {
+	chillin,
+	sleeping,
+	hungry,
+	placing_order,
+	waiting_for_delivery,
+	eating,
+}
+
 class Customer:
+	signal call_pizza_shop
+	signal hungry
+	signal full
+	signal wake_up
+	signal go_to_sleep
+	signal waiting
+	
 	var Orders = []
 	var openOrder = null
 	var pizzaForOpenOrder = null
 	var rng = RandomNumberGenerator.new()
 	var name = ""
-	var hunger = 0
+	var hunger = 50
+	var hungerFullLevel = 100
+	var metabolism = 1
+	var currentState = CUSTOMER_STATES.chillin
+	var nextState = currentState
+	var bedtimeHour = 20
+	var wakeupHour = 6
 	
 	func _init():
 		rng.randomize()
 		name = Constants.CUSTOMER_NAMES[rng.randi() % Constants.CUSTOMER_NAMES.size()]
+		# randomizeBedtime()
+		# randomizeHunger()
+	
+	func _update(delta):
+		if currentState != nextState:
+			var previousState = currentState
+			currentState = nextState
+			stateUpdated(previousState)
 		
+		if currentState != CUSTOMER_STATES.sleeping and shouldBeAsleep(GlobalWorld.currentDate.hour):
+			nextState = CUSTOMER_STATES.sleeping
+		
+		match (currentState):	
+			CUSTOMER_STATES.eating:
+				hunger += delta * hungerFullLevel / 10
+				
+				if hunger >= hungerFullLevel && rng.randi() % 6 == 0:
+					nextState = CUSTOMER_STATES.chillin
+			
+			CUSTOMER_STATES.sleeping:
+				hunger -= delta * metabolism * .25
+				
+				if GlobalWorld.currentDate.hour == wakeupHour:
+					nextState = CUSTOMER_STATES.chillin
+					
+			CUSTOMER_STATES.hungry:
+				nextState = CUSTOMER_STATES.placing_order
+		
+			CUSTOMER_STATES.chillin:
+				if GlobalWorld.currentDate.hour == bedtimeHour:
+					nextState = CUSTOMER_STATES.sleeping
+				else:
+					hunger -= (delta * metabolism)
+					
+					if hunger < 0 && rng.randi() % 4 == 0:
+						nextState = CUSTOMER_STATES.hungry
+	
+	func stateUpdated(prevState):
+		match currentState:
+			CUSTOMER_STATES.hungry:
+				emit_signal("hungry")
+				
+			CUSTOMER_STATES.sleeping:
+				emit_signal("go_to_sleep")
+				
+			CUSTOMER_STATES.placing_order:
+				emit_signal("call_pizza_shop")
+				
+			CUSTOMER_STATES.chillin:
+				if prevState == CUSTOMER_STATES.sleeping:
+					emit_signal("wake_up")
+				elif prevState == CUSTOMER_STATES.eating:
+					emit_signal("full")
+					
+			CUSTOMER_STATES.waiting_for_delivery:
+				emit_signal("waiting")
+	
+	func setName(newName):
+		name = newName
+		
+	func setSleepHours(bedtime, wakeup):
+		bedtimeHour = bedtime
+		wakeupHour = wakeup
+		
+	func setFullnessLevel(fullValue):
+		hungerFullLevel = fullValue
+		
+	func setMetabolism(newMetabolism):
+		metabolism = newMetabolism
+		
+	func shouldBeAsleep(currentHour):
+		if currentHour >= bedtimeHour and (wakeupHour < bedtimeHour or currentHour < wakeupHour):
+			return true
+		elif currentHour < wakeupHour and (bedtimeHour > wakeupHour or bedtimeHour < currentHour):
+			return true
+		
+		return false
+	
 	func pickPizza():
 		var pizza = Models.Pizza.new()
 		
@@ -360,9 +459,19 @@ class Customer:
 		openOrder = order
 
 	func fulfillOrder(items):
-		openOrder.fulfill()
+		if !openOrder: return
+		
+		openOrder.fulfill(items)
+		# todo: check if item actually matches order
 		Orders.append(openOrder)
 		openOrder = null
+		
+		nextState = CUSTOMER_STATES.eating
+		
+	func waitForDelivery():
+		if currentState != CUSTOMER_STATES.placing_order: return
+		
+		nextState = CUSTOMER_STATES.waiting_for_delivery
 		
 class Order:
 	var desiredPizza = null
@@ -381,7 +490,8 @@ class Order:
 	func setCustomerName(name):
 		customerName = name
 
-	func fulfill(pizza):
+	func fulfill(fulfillmentItems):
+		var pizza = fulfillmentItems[0]
 		status = Constants.ORDER_STATUSES.fulfilled
 		fulfillmentPizza = pizza
 		pizzasMatch = checkIfPizzasMatch(desiredPizza, fulfillmentPizza)
