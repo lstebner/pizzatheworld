@@ -7,13 +7,16 @@ const DialogBubble = preload("res://scenes/DialogBubble.tscn")
 var currentCustomerIndex = -1
 var currentDialogIndex = -1
 var orderDialog = null
+var ringingPhoneLine = null
+var openPhoneLine = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$LeaveButton.connect("pressed", self, "_on_leave_button_pressed")
 	$AnswerPhone.connect("pressed", self, "_on_answer_phone_pressed")
 	$POS.connect("receipt_finalized", self, "_on_pos_receipt_finalized")
-	Player.Residents.generateResident()
+	Player.Shop.connect("phone_ringing", self, "_on_phone_ringing")
+	Player.Shop.connect("call_accepted", self, "_on_phone_call_accepted")
 	
 func createDialogBubbleWithMessage(message):
 	var dialog = DialogBubble.instance()
@@ -30,21 +33,21 @@ func clearExistingDialogBubbles():
 func _on_leave_button_pressed():
 	emit_signal("leave")
 
-func _on_answer_phone_pressed():
-	# the way this method is working right now will evnetually change
-	# currently, it generates a resident on request and they say an
-	# order, but eventually residents will decide to call in on their
-	# own and this will simply answer the line
-	var customers = Player.Residents.residents
+func _on_phone_ringing(line):
+	ringingPhoneLine = line
+	$AnswerPhone.show()
 
-	clearExistingDialogBubbles()
-	currentCustomerIndex += 1
-	if currentCustomerIndex > customers.size() - 1:
-		Player.Residents.generateResident()
-	
-	orderDialog = customers[currentCustomerIndex].dialogForOrder()
+func _on_answer_phone_pressed():
+	if !ringingPhoneLine: return
+
+	$AnswerPhone.hide()
+	Player.Shop.answerPhone(0)
+
+func _on_phone_call_accepted(line):
+	orderDialog = line.customer.dialogForOrder()
 	currentDialogIndex = 0
 	createDialogBubbleWithMessage(orderDialog[currentDialogIndex])
+	openPhoneLine = line
 
 func _on_dialog_message_complete():
 	currentDialogIndex += 1
@@ -53,11 +56,14 @@ func _on_dialog_message_complete():
 		createDialogBubbleWithMessage(orderDialog[currentDialogIndex])
 
 func _on_pos_receipt_finalized(receipt):
-	var customer = Player.Residents.get(currentCustomerIndex)
+	var customer = openPhoneLine.customer # GlobalWorld.getCustomer(currentCustomerIndex)
+	if !customer:
+		print("can't find customer to finalize receipt")
+		return
 	
 	var pizza = customer.pizzaForOpenOrder
-	if !customer or !pizza: 
-		print("receipt finalized without any order")
+	if !pizza:
+		print("customer has no pizza open for order to use to finalize receipt")
 		return
 	
 	var newOrder = Models.Order.new()
@@ -68,3 +74,6 @@ func _on_pos_receipt_finalized(receipt):
 
 	Player.Shop.OpenOrders.append(newOrder)
 	customer.setOpenOrder(newOrder)
+	
+	clearExistingDialogBubbles()
+	Player.Shop.hangUpPhoneLine(0)

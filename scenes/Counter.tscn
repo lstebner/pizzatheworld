@@ -28,6 +28,7 @@ margin_bottom = 99.8122
 position = Vector2( 306.699, 133.821 )
 
 [node name="AnswerPhone" type="Button" parent="."]
+visible = false
 margin_left = 29.9077
 margin_top = 20.9354
 margin_right = 134.908

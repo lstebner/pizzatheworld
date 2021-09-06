@@ -267,6 +267,7 @@ enum CUSTOMER_STATES {
 	placing_order,
 	waiting_for_delivery,
 	eating,
+	waiting_to_call_again,
 }
 
 class Customer:
@@ -289,12 +290,11 @@ class Customer:
 	var nextState = currentState
 	var bedtimeHour = 20
 	var wakeupHour = 6
+	var callAgainWaitTime = 0
 	
 	func _init():
 		rng.randomize()
 		name = Constants.CUSTOMER_NAMES[rng.randi() % Constants.CUSTOMER_NAMES.size()]
-		# randomizeBedtime()
-		# randomizeHunger()
 	
 	func _update(delta):
 		if currentState != nextState:
@@ -329,6 +329,12 @@ class Customer:
 					
 					if hunger < 0 && rng.randi() % 4 == 0:
 						nextState = CUSTOMER_STATES.hungry
+			
+			CUSTOMER_STATES.waiting_to_call_again:
+				callAgainWaitTime -= delta
+				
+				if callAgainWaitTime < 0:
+					nextState = CUSTOMER_STATES.chillin
 	
 	func stateUpdated(prevState):
 		match currentState:
@@ -443,12 +449,16 @@ class Customer:
 		# toppings
 		if chosenPizza.hasToppings():
 			var toppingsString = "and topped with "
-			if chosenPizza.numToppings() == 1:
-				toppingsString += Names.TOPPINGS[chosenPizza.toppings[0]]
-			else:
-				for t in chosenPizza.toppings.slice(0, chosenPizza.toppings.size() - 1):
-					toppingsString += "%s..." % Names.TOPPINGS[t]
-				toppingsString += " and %s" % Names.TOPPINGS[chosenPizza.toppings[-1]]
+			
+			match chosenPizza.numToppings():
+				1:
+					toppingsString += Names.TOPPINGS[chosenPizza.toppings[0]]
+				2:
+					toppingsString += "%s.. and %s" % [Names.TOPPINGS[chosenPizza.toppings[0]], Names.TOPPINGS[chosenPizza.toppings[1]]]
+				_:
+					for t in chosenPizza.toppings.slice(0, chosenPizza.toppings.size() - 2):
+						toppingsString += "%s..." % Names.TOPPINGS[t]
+					toppingsString += " and %s" % Names.TOPPINGS[chosenPizza.toppings[-1]]
 			dialog.append(toppingsString)
 		else:
 			dialog.append("and that's it!")
@@ -472,6 +482,10 @@ class Customer:
 		if currentState != CUSTOMER_STATES.placing_order: return
 		
 		nextState = CUSTOMER_STATES.waiting_for_delivery
+	
+	func callRejected():
+		nextState = CUSTOMER_STATES.waiting_to_call_again
+		callAgainWaitTime = 10
 		
 class Order:
 	var desiredPizza = null
@@ -501,7 +515,8 @@ class Order:
 		return true
 		
 class Phone:
-	signal line_disconnected
+	signal line_disconnected(line)
+	signal line_ringing(line)
 	signal call_accepted(line)
 	
 	var numLines = 1
@@ -526,10 +541,11 @@ class Phone:
 			
 			if rng.randf() < disconnectChance:
 				lineDisconnected(line)
-				
-			return Constants.PHONE_SIGNALS.ringing
+			
+			emit_signal("line_ringing", line)
+			return line
 		
-		return Constants.PHONE_SIGNALS.busy
+		return null
 		
 	func lineDisconnected(line):
 		line.disconnected = true
@@ -537,8 +553,9 @@ class Phone:
 	func acceptCallOnLine(lineId):
 		if (!lines[lineId].isRinging): return false
 		if (lines[lineId].disconnected):
-			emit_signal("line_disconnected")
-			return hangUpLine(lineId)
+			emit_signal("line_disconnected", lines[lineId])
+			hangUpLine(lineId)
+			return
 		
 		lines[lineId].isRinging = false
 		lines[lineId].isBusy = true

@@ -27,7 +27,7 @@ func setupPizzasList():
 		$pizzas/HBoxContainer/ItemList.add_item(pizza.id)
 		
 func fulfillSelectedOrder(pizza):
-	selectedOrder.fulfill(pizza)
+	selectedOrder.fulfill([pizza])
 	updateSelectedOrderInfo()
 	Player.Shop.Balance += selectedOrder.receipt.getTotalWithTax()
 	

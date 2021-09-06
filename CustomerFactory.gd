@@ -8,7 +8,7 @@ func _ready():
 
 func generate():
 	var customer = Models.Customer.new()
-	customer.hunger = rng.randi() % 80 + 20
+	customer.hunger = rng.randi() % 8 + 20
 	# set name
 	customer.setName(Constants.CUSTOMER_NAMES[rng.randi() % Constants.CUSTOMER_NAMES.size()])
 	# set hunger level
@@ -17,6 +17,8 @@ func generate():
 	var bedtime = rng.randi() % 24
 	var wakeup = (bedtime + rng.randi() % 5 + 3) % 24
 	customer.setSleepHours(bedtime, wakeup)
+	
+	# todo: set favorite toppings
 	
 	customers.append(customer)
 	

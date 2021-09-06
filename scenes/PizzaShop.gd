@@ -16,9 +16,6 @@ const Places = {
 	locations.Deliveries: null,
 }
 
-var CustomerFactory = load("res://CustomerFactory.gd")
-var customerFactory = CustomerFactory.new()
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Places[locations.PizzaStation] = $locations/PizzaStation
@@ -38,9 +35,6 @@ func _ready():
 
 func _process(delta):
 	var openOrdersString = ""
-	
-	for customer in customerFactory.customers:
-		customer.update(delta)
 	
 	for order in Player.Shop.OpenOrders:
 		var orderString = ""

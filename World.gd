@@ -12,6 +12,8 @@ const SECONDS_IN_DAY = SECONDS_IN_HOUR * HOURS_IN_DAY
 const SECONDS_IN_MONTH = SECONDS_IN_DAY * DAYS_IN_MONTH
 const SECONDS_IN_YEAR = DAYS_IN_YEAR * SECONDS_IN_DAY
 
+var CustomerFactory = load("res://CustomerFactory.gd")
+
 var timeSinceEpoch = 0
 var timeIsFrozen = false
 
@@ -24,11 +26,19 @@ var currentDate = {
 	"ampm": "am",
 }
 
+var customerFactory = CustomerFactory.new()
+
+func _ready():
+	generateCustomers(5)
+
 func _process(delta):
 	if timeIsFrozen: return
 
 	timeSinceEpoch += delta
 	updateDate()
+	
+	for customer in customerFactory.customers:
+		customer._update(delta)
 
 func getCurrentTime():
 	return timeSinceEpoch
@@ -83,3 +93,21 @@ func timestamp():
 func zeroPad(num):
 	if num < 10: return "0%s" % num
 	return "%s" % num
+
+	
+func generateCustomers(amount):
+	for i in amount:
+		var customer = customerFactory.generate()
+		customer.connect("call_pizza_shop", self, "_on_customer_call_pizza_shop", [customer])
+		
+func getCustomers():
+	return customerFactory.customers
+	
+func getCustomer(idx):
+	return customerFactory.customers[idx]
+	
+func _on_customer_call_pizza_shop(customer):
+	var answered = Player.Shop.incomingCall(customer)
+	
+	if !answered:
+		customer.callRejected()

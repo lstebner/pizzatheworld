@@ -1,6 +1,10 @@
 extends Node
 
 class PizzaShop:
+	signal phone_ringing(line)
+	signal call_rejected(line)
+	signal call_accepted(line)
+	
 	var Name = "Pizzateria"
 	var Level = 1
 	var OpenOrders = []
@@ -23,6 +27,11 @@ class PizzaShop:
 	var _id_incrementer = 0
 	var _receipt_id_incrementer = 0
 	
+	func _init():
+		Phone.connect("line_ringing", self, "_on_phone_line_ringing")
+		Phone.connect("line_disconnected", self, "_on_phone_line_disconnected")
+		Phone.connect("call_accepted", self, "_on_phone_call_accepted")
+	
 	func nextId():
 		_id_incrementer += 1
 		return _id_incrementer
@@ -30,6 +39,24 @@ class PizzaShop:
 	func nextReceiptId():
 		_receipt_id_incrementer += 1
 		return _receipt_id_incrementer
+		
+	func incomingCall(customer):
+		return Phone.incomingCall(customer)
+	
+	func answerPhone(lineId):
+		Phone.acceptCallOnLine(lineId)
+	
+	func hangUpPhoneLine(lineId):
+		Phone.hangUpLine(lineId)
+		
+	func _on_phone_line_ringing(line):
+		emit_signal("phone_ringing", line)
+	
+	func _on_phone_line_disconnected(line):
+		emit_signal("call_rejected", line)
+	
+	func _on_phone_call_accepted(line):
+		emit_signal("call_accepted", line)
 		
 class ResidentsFactory:
 	var residents = []
