@@ -1,7 +1,9 @@
 extends Node2D
 
-
+var CustomerStatusBar = load("res://scenes/CustomerStatusBar.tscn")
 var CustomerFactory = load("res://CustomerFactory.gd")
+
+
 var factory = CustomerFactory.new()
 var selectedCustomer = null
 
@@ -49,9 +51,12 @@ func _on_generate_customer_pressed():
 	newCustomer.connect("go_to_sleep", self, "_on_customer_status_changed")
 	newCustomer.connect("waiting", self, "_on_customer_status_changed")
 	refreshCustomersList()
+
 	
 func _on_customer_selected(index):
 	selectedCustomer = factory.customers[index]
+	$CustomerStatusBar.show()
+	$CustomerStatusBar.setCustomer(selectedCustomer)
 
 func _on_order_placed_pressed():
 	if !selectedCustomer: return
