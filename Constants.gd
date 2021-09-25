@@ -118,3 +118,6 @@ var PRICES = {
 		PIZZA_SIZES.fourteen: 12,
 	}
 }
+
+const INITIAL_POPULATION = 7900000000
+const BIRTHS_PER_DAY = 385000 # believe it or not, these numbers are true to real life

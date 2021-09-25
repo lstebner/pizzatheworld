@@ -15,12 +15,6 @@ class PizzaShop:
 	var AvailableCheeses = Constants.CHEESES
 	var Ovens = [Models.Oven.new()]
 	var Pizzas = []
-	var Stats = {
-		"pizzasMade": 0,
-		"lifetimeIncome": 0,
-		"daysInBusiness": 0,
-		"customersServed": 0,
-	}
 	var Balance = 0
 	var Phone = Models.Phone.new()
 	
@@ -31,7 +25,9 @@ class PizzaShop:
 		Phone.connect("line_ringing", self, "_on_phone_line_ringing")
 		Phone.connect("line_disconnected", self, "_on_phone_line_disconnected")
 		Phone.connect("call_accepted", self, "_on_phone_call_accepted")
-	
+		GlobalWorld.connect("day_changed", self, "_on_day_changed")
+		pass
+		
 	func nextId():
 		_id_incrementer += 1
 		return _id_incrementer
@@ -57,6 +53,9 @@ class PizzaShop:
 	
 	func _on_phone_call_accepted(line):
 		emit_signal("call_accepted", line)
+		
+	func _on_day_changed():
+		LifetimeStats.updateForEndOfDay()
 		
 class ResidentsFactory:
 	var residents = []

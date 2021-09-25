@@ -16,6 +16,8 @@ const Places = {
 	locations.Deliveries: null,
 }
 
+var currentPopulationDisplay = Constants.INITIAL_POPULATION
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Places[locations.PizzaStation] = $locations/PizzaStation
@@ -51,8 +53,13 @@ func _process(delta):
 		nowBakingString += "\n%s" % Constants.RECEIPT_STATUSES.keys()[order.receipt.status]
 		openOrdersString += "\n------\n%s\n%s" % [nowBakingString, order.receipt.lineItemsString()]
 
+	if currentPopulationDisplay < GlobalWorld.currentPopulation:
+		currentPopulationDisplay += round(Constants.BIRTHS_PER_DAY / GlobalWorld.MINUTES_IN_DAY * delta)
+		
 	$OpenOrdersLabel.text = openOrdersString
 	$Balance.text = "$%s" % Player.Shop.Balance
+	$WorldPopulation.text = "%s" % GlobalWorld.formattedPopulation(currentPopulationDisplay)
+	$CurrentDate.text = "%s" % GlobalWorld.formattedDateString()
 		
 
 func _on_location_button_pressed(loc):

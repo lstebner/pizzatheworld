@@ -117,11 +117,49 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="BalanceLabel" type="Label" parent="."]
+margin_left = 11.9058
+margin_top = 11.6738
+margin_right = 51.9058
+margin_bottom = 25.6738
+text = "Moneys"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Balance" type="Label" parent="."]
-margin_left = 299.692
-margin_top = 40.4011
-margin_right = 339.692
-margin_bottom = 54.4011
+margin_left = 76.0293
+margin_top = 13.2128
+margin_right = 116.029
+margin_bottom = 27.2128
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WorldPopulationLabel" type="Label" parent="."]
+margin_left = 205.302
+margin_top = 10.1348
+margin_right = 277.302
+margin_bottom = 24.1348
+text = "Population:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WorldPopulation" type="Label" parent="."]
+margin_left = 281.737
+margin_top = 8.59585
+margin_right = 321.737
+margin_bottom = 22.5958
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CurrentDate" type="Label" parent="."]
+margin_left = 832.783
+margin_top = 9.53999
+margin_right = 872.783
+margin_bottom = 23.54
 __meta__ = {
 "_edit_use_anchors_": false
 }

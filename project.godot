@@ -8,15 +8,21 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Reference",
+"class": "Big",
+"language": "GDScript",
+"path": "res://BigNum.gd"
+} ]
 _global_script_class_icons={
-
+"Big": ""
 }
 
 [application]
 
 config/name="PizzaTheWorld"
 run/main_scene="res://scenes/PizzaShop.tscn"
+boot_splash/image="res://assets/pizzatheworld.png"
 config/icon="res://icon.png"
 
 [autoload]
@@ -25,6 +31,7 @@ Constants="*res://Constants.gd"
 Names="*res://Names.gd"
 GlobalWorld="*res://World.gd"
 Models="*res://Models.gd"
+LifetimeStats="*res://LifetimeStats.gd"
 Player="*res://Player.gd"
 
 [display]

@@ -1,5 +1,8 @@
 extends Node
 
+signal day_changed
+signal year_changed
+
 const SECONDS_IN_MINUTE = 1
 const MINUTES_IN_HOUR = 8
 const HOURS_IN_DAY = 24
@@ -11,6 +14,7 @@ const SECONDS_IN_HOUR = SECONDS_IN_MINUTE * MINUTES_IN_HOUR
 const SECONDS_IN_DAY = SECONDS_IN_HOUR * HOURS_IN_DAY
 const SECONDS_IN_MONTH = SECONDS_IN_DAY * DAYS_IN_MONTH
 const SECONDS_IN_YEAR = DAYS_IN_YEAR * SECONDS_IN_DAY
+const MINUTES_IN_DAY = MINUTES_IN_HOUR * HOURS_IN_DAY
 
 var CustomerFactory = load("res://CustomerFactory.gd")
 
@@ -25,6 +29,8 @@ var currentDate = {
 	"year": 0,
 	"ampm": "am",
 }
+
+var currentPopulation = Constants.INITIAL_POPULATION
 
 var customerFactory = CustomerFactory.new()
 
@@ -50,7 +56,15 @@ func unfreezeTime():
 	timeIsFrozen = false
 
 func updateDate():
-	currentDate = getDateFromEpochTime(timeSinceEpoch)
+	var newDate = getDateFromEpochTime(timeSinceEpoch)
+	
+	if newDate.dayOfMonth != currentDate.dayOfMonth:
+		currentPopulation += Constants.BIRTHS_PER_DAY
+		emit_signal("day_changed")
+	if newDate.year != currentDate.year:
+		emit_signal("year_changed")
+	
+	currentDate = newDate
 
 func getDateFromEpochTime(epochTime):
 	var date = {
@@ -86,6 +100,18 @@ func getDateFromEpochTime(epochTime):
 	
 func formattedDateString():
 	return "Day %s, Month %s, Year %s\n%s:%s%s" % [zeroPad(currentDate.dayOfMonth), zeroPad(currentDate.monthOfYear), zeroPad(currentDate.year), zeroPad(currentDate.hour), zeroPad(currentDate.minute), currentDate.ampm]
+
+func formattedPopulation(populationValue):
+	var string = str(populationValue)
+	var mod = string.length() % 3
+	var res = ""
+
+	for i in range(0, string.length()):
+		if i != 0 && i % 3 == mod:
+			res += ","
+		res += string[i]
+
+	return res
 
 func timestamp():
 	return "%s/%s/%s %s:%s" % [currentDate.monthOfYear, currentDate.dayOfMonth, currentDate.year, currentDate.hour, currentDate.minute]
