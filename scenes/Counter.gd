@@ -45,6 +45,7 @@ func _on_answer_phone_pressed():
 
 func _on_phone_call_accepted(line):
 	orderDialog = line.customer.dialogForOrder()
+	$dialog/NameOfCustomerOnPhone.text = "%s is on the line" % line.customer.name
 	currentDialogIndex = 0
 	createDialogBubbleWithMessage(orderDialog[currentDialogIndex])
 	openPhoneLine = line
@@ -75,5 +76,6 @@ func _on_pos_receipt_finalized(receipt):
 	Player.Shop.OpenOrders.append(newOrder)
 	customer.setOpenOrder(newOrder)
 	
+	$dialog/NameOfCustomerOnPhone.text = ""
 	clearExistingDialogBubbles()
 	Player.Shop.hangUpPhoneLine(0)

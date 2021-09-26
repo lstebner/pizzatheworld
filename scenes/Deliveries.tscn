@@ -88,6 +88,33 @@ margin_right = 354.0
 margin_bottom = 250.0
 rect_min_size = Vector2( 200, 0 )
 
+[node name="HBoxContainer2" type="HBoxContainer" parent="pizzas"]
+margin_left = 34.4734
+margin_top = 262.117
+margin_right = 121.473
+margin_bottom = 302.117
+custom_constants/separation = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CutPizza" type="Button" parent="pizzas/HBoxContainer2"]
+margin_right = 32.0
+margin_bottom = 40.0
+text = "cut"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BoxPizza" type="Button" parent="pizzas/HBoxContainer2"]
+margin_left = 52.0
+margin_right = 87.0
+margin_bottom = 40.0
+text = "box"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Fulfill" type="Button" parent="."]
 margin_left = 385.295
 margin_top = 449.597

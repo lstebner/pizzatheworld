@@ -35,6 +35,9 @@ func _ready():
 	$OvensButton.connect("pressed", self, "_on_location_button_pressed", [locations.Ovens])
 	$DeliveriesButton.connect("pressed", self, "_on_location_button_pressed", [locations.Deliveries])
 
+	Player.Shop.connect("phone_ringing", self, "_on_shop_phone_ringing")
+	Player.Shop.connect("call_accepted", self, "_on_shop_phone_accepted")
+
 func _process(delta):
 	var openOrdersString = ""
 	
@@ -60,6 +63,7 @@ func _process(delta):
 	$Balance.text = "$%s" % Player.Shop.Balance
 	$WorldPopulation.text = "%s" % GlobalWorld.formattedPopulation(currentPopulationDisplay)
 	$CurrentDate.text = "%s" % GlobalWorld.formattedDateString()
+	$PizzasDelivered.text = "%s" % LifetimeStats.pizzasDeliveredLifetime
 		
 
 func _on_location_button_pressed(loc):
@@ -84,3 +88,9 @@ func _on_location_leave_requested(_location):
 
 func viewScreen(screen):
 	$CurrentSceneCamera.position = screen.position
+
+func _on_shop_phone_ringing(_line):
+	$PhoneIndicator.region_rect.position.x = 0
+	
+func _on_shop_phone_accepted(_line):
+	$PhoneIndicator.region_rect.position.x = 48

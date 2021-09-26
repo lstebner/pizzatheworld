@@ -45,6 +45,12 @@ class PizzaShop:
 	func hangUpPhoneLine(lineId):
 		Phone.hangUpLine(lineId)
 		
+	func orderCompleted(order):
+		var incomeEarned = order.receipt.getTotalWithTax()
+		Balance += incomeEarned
+		LifetimeStats.addToIncomeToday(incomeEarned)
+		LifetimeStats.incrementPizzasDeliveredToday()
+		
 	func _on_phone_line_ringing(line):
 		emit_signal("phone_ringing", line)
 	

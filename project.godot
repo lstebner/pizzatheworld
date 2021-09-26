@@ -27,12 +27,14 @@ config/icon="res://icon.png"
 
 [autoload]
 
+Enums="*res://Enums.gd"
 Constants="*res://Constants.gd"
 Names="*res://Names.gd"
 GlobalWorld="*res://World.gd"
 Models="*res://Models.gd"
 LifetimeStats="*res://LifetimeStats.gd"
 Player="*res://Player.gd"
+Utils="*res://Utils.gd"
 
 [display]
 

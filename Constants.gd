@@ -2,6 +2,7 @@ extends Node
 
 const SALES_TAX = .071
 
+# these statuses are expected to be in order ending with the most complete state
 enum PIZZA_STATUSES {
 	ordered,
 	prepped,

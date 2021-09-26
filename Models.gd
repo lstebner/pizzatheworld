@@ -21,13 +21,16 @@ class Pizza:
 		status = newStatus
 		
 	func isBaked():
-		return status == Constants.PIZZA_STATUSES.baked
+		return status >= Constants.PIZZA_STATUSES.baked
 	
 	func isBaking():
 		return status == Constants.PIZZA_STATUSES.baking
 	
 	func isBoxed():
 		return status == Constants.PIZZA_STATUSES.boxed
+		
+	func isCut():
+		return numCuts > 0
 	
 	func isSizeSet():
 		return size != -1
@@ -86,20 +89,23 @@ class Pizza:
 	
 	func cut():
 		if status != Constants.PIZZA_STATUSES.baked: return
-		if isBoxed: return
-		
-		isCut = true
+
 		numCuts += 1
 	
 	func box():
 		if status != Constants.PIZZA_STATUSES.baked: return
 		
-		isBoxed = true
+		status = Constants.PIZZA_STATUSES.boxed
 		
 	func setSize(newSize):
 		size = newSize
 		bakeTime = Constants.PIZZA_BAKE_TIMES[size]
 		sizeLabel = Names.SIZES[size]
+		
+	func adjustBakeTimeForOvenTemp(ovenTemp):
+		if ovenTemp >= 950: return
+		
+		bakeTime += (950 - ovenTemp) / 25
 		
 	func isComplete():
 		# toppings are considered optional, everything else is required
@@ -124,6 +130,7 @@ class Pizza:
 		desc += "cheese: %s\n" % Names.CHEESES[cheese]
 		desc += "toppings: %s\n" % toppingsString
 		desc += "status: %s\n" % Constants.PIZZA_STATUSES.keys()[status]
+		desc += "cuts: %s\n" % numCuts
 		
 		return desc
 
@@ -504,15 +511,12 @@ class Order:
 	func setCustomerName(name):
 		customerName = name
 
-	func fulfill(fulfillmentItems):
+	func fulfill(fulfillmentItems, requireMatch = true):
 		var pizza = fulfillmentItems[0]
-		status = Constants.ORDER_STATUSES.fulfilled
 		fulfillmentPizza = pizza
-		pizzasMatch = checkIfPizzasMatch(desiredPizza, fulfillmentPizza)
+		status = Constants.ORDER_STATUSES.fulfilled
 	
-	func checkIfPizzasMatch(pizza1, pizza2):
-		print("checkIfPizzasMatch is not yet implemented")
-		return true
+	
 		
 class Phone:
 	signal line_disconnected(line)
@@ -579,10 +583,10 @@ class Oven:
 	var currentTemp = 0
 	var targetTemp = 0
 	var minTemp = 0
-	var maxTemp = 750
-	var style = "gas"
-	var material = "stainless_steel"
-	var max_capacity = 4
+	var maxTemp = 500
+	var style = Enums.OvenStyles.electric
+	var material = Enums.OvenMaterials.stainless_steel
+	var max_capacity = 1
 	var turnedOn = false
 	var tempControlStepAmount = 50
 	var items = []

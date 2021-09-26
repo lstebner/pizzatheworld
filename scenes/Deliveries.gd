@@ -12,6 +12,8 @@ func _ready():
 	$open_orders/HBoxContainer/ItemList.connect("item_selected", self, "_on_open_order_selected")
 	$pizzas/HBoxContainer/ItemList.connect("item_selected", self, "_on_pizza_item_selected")
 	$Fulfill.connect("pressed", self, "_on_fulfill_pressed")
+	$pizzas/HBoxContainer2/CutPizza.connect("pressed", self, "_on_cut_pizza_button_pressed")
+	$pizzas/HBoxContainer2/BoxPizza.connect("pressed", self, "_on_box_pizza_button_pressed")
 	
 func setupOrdersList():
 	openOrders = Player.Shop.OpenOrders
@@ -27,9 +29,21 @@ func setupPizzasList():
 		$pizzas/HBoxContainer/ItemList.add_item(pizza.id)
 		
 func fulfillSelectedOrder(pizza):
+	if !pizza.isBaked():
+		print("pizza is still baking")
+		return
+		
+	if !pizza.isBoxed():
+		print("pizza isn't boxed yet")
+		return
+	
+	if !Utils.checkIfPizzasMatch(pizza, selectedOrder.desiredPizza):
+		print("pizza doesn't match order!")
+		return
+		
 	selectedOrder.fulfill([pizza])
 	updateSelectedOrderInfo()
-	Player.Shop.Balance += selectedOrder.receipt.getTotalWithTax()
+	Player.Shop.orderCompleted(selectedOrder)
 	
 	selectedPizza = null
 	$pizzas/HBoxContainer/ItemList.clear()
@@ -59,6 +73,9 @@ func _on_open_order_selected(index):
 	
 func _on_pizza_item_selected(index):
 	selectedPizza = pizzas[index]
+	renderSelectedPizzaDescription()
+	
+func renderSelectedPizzaDescription():
 	$pizzas/HBoxContainer/RichTextLabel.text = selectedPizza.getDescriptionString()
 
 func _on_fulfill_pressed():
@@ -70,3 +87,15 @@ func _on_fulfill_pressed():
 		return
 		
 	fulfillSelectedOrder(selectedPizza)
+
+func _on_cut_pizza_button_pressed():
+	if !selectedPizza: return
+	
+	selectedPizza.cut()
+	renderSelectedPizzaDescription()
+	
+func _on_box_pizza_button_pressed():
+	if !selectedPizza: return
+	
+	selectedPizza.box()
+	renderSelectedPizzaDescription()

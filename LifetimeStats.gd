@@ -29,10 +29,11 @@ func updateForEndOfDay():
 		maxIncomeInOneDay = incomeToday
 	if pizzasDeliveredToday > mostPizzasDeliveredInOneDay:
 		mostPizzasDeliveredInOneDay = pizzasDeliveredToday
-	
+
 	print(createDailyRecordEntry())
 	dailyRecordLog.append(createDailyRecordEntry())
-	
+	resetDailyStatValues()
+
 func createDailyRecordEntry():
 	return {
 		objectKeys.pizzasDeliveredToday: pizzasDeliveredToday,
@@ -41,3 +42,15 @@ func createDailyRecordEntry():
 		objectKeys.incomeToday: incomeToday,
 		objectKeys.incomeLifetime: incomeLifetime,
 	}
+
+func resetDailyStatValues():
+	incomeToday = 0
+	pizzasDeliveredToday = 0
+	
+func incrementPizzasDeliveredToday():
+	pizzasDeliveredToday += 1
+	pizzasDeliveredLifetime += 1
+	
+func addToIncomeToday(amount):
+	incomeToday += amount
+	incomeLifetime += amount

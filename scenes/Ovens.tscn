@@ -101,12 +101,15 @@ __meta__ = {
 position = Vector2( 10.8284, 0 )
 
 [node name="pizza1" parent="CookBelt" instance=ExtResource( 2 )]
+visible = false
 position = Vector2( 98.4794, 0 )
 
 [node name="pizza2" parent="CookBelt" instance=ExtResource( 2 )]
+visible = false
 position = Vector2( 190.625, 0 )
 
 [node name="pizza3" parent="CookBelt" instance=ExtResource( 2 )]
+visible = false
 position = Vector2( 273.032, 0 )
 
 [node name="ChangeTempTimer" type="Timer" parent="."]

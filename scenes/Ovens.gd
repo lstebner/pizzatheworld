@@ -104,7 +104,7 @@ func _on_change_temp_timer_timeout():
 func _on_item_slot_insert_item(slot):
 	if !oven.turnedOn: return print("oven isn't turned on!")
 	if oven.currentTemp == 0: return print("oven temperature is not set")
-	if oven.currentTemp < 700: return print("oven is still too cold")
+	if oven.currentTemp < 500: return print("oven is still too cold")
 	
 	if selectedPizza:
 		if selectedPizza.isBaked():
@@ -112,6 +112,7 @@ func _on_item_slot_insert_item(slot):
 		elif selectedPizza.isBaking():
 			print("this pizza is currently baking")
 		else:
+			selectedPizza.adjustBakeTimeForOvenTemp(oven.currentTemp)
 			slot.insertItem(selectedPizza)
 			selectedPizza.startBaking()
 			refreshPizzasList()
