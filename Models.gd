@@ -425,7 +425,7 @@ class Customer:
 		var toppings = []
 		
 		for i in numToppings:
-			var randomTopping = availableToppings.values()[rng.randi() % availableToppings.size()]
+			var randomTopping = availableToppings[rng.randi() % availableToppings.size()]
 			if !toppings.has(randomTopping):
 				toppings.append(randomTopping)
 			
