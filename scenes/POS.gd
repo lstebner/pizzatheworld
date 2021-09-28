@@ -15,25 +15,25 @@ func _process(delta):
 	$clock/datetime.text = GlobalWorld.formattedDateString()
 	
 func createAllButtons():
-	for size in Constants.PIZZA_SIZES.values():
+	for size in Player.Shop.AvailableSizes:
 		var button = Button.new()
 		button.text = Names.SIZES[size]
 		button.connect("pressed", self, "_on_size_button_pressed", [size])
 		$size/VBoxContainer/GridContainer.add_child(button)
 	
-	for topping in Constants.TOPPINGS.values():
+	for topping in Player.Shop.AvailableToppings:
 		var button = Button.new()
 		button.text = Names.TOPPINGS[topping]
 		button.connect("pressed", self, "_on_topping_button_pressed", [topping])
 		$toppings/VBoxContainer/GridContainer.add_child(button)
 		
-	for sauce in Constants.SAUCES.values():
+	for sauce in Player.Shop.AvailableSauces:
 		var button = Button.new()
 		button.text = Names.SAUCES[sauce]
 		button.connect("pressed", self, "_on_sauce_button_pressed", [sauce])
 		$sauce/VBoxContainer/GridContainer.add_child(button)
 		
-	for cheese in Constants.CHEESES.values():
+	for cheese in Player.Shop.AvailableCheeses:
 		var button = Button.new()
 		button.text = Names.CHEESES[cheese]
 		button.connect("pressed", self, "_on_cheese_button_pressed", [cheese])

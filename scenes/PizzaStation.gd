@@ -35,21 +35,21 @@ func createButtons():
 	for b in existingButtons:
 		b.queue_free()
 	
-	for size in Constants.PIZZA_SIZES.values():
+	for size in Player.Shop.AvailableSizes:
 		var button = Button.new()
 		button.add_to_group("pizza_station_buttons")
 		button.text = Names.SIZES[size]
 		button.connect("pressed", self, "_on_size_button_pressed", [size])
 		$Pans/VBoxContainer.add_child(button)
 	
-	for topping in Constants.TOPPINGS.values():
+	for topping in Player.Shop.AvailableToppings:
 		var button = Button.new()
 		button.add_to_group("pizza_station_buttons")
 		button.text = Names.TOPPINGS[topping]
 		button.connect("pressed", self, "_on_topping_button_pressed", [topping])
 		$Toppings/GridContainer.add_child(button)
 		
-	for sauce in Constants.SAUCES.values():
+	for sauce in Player.Shop.AvailableSauces:
 		var button = Button.new()
 		button.add_to_group("pizza_station_buttons")
 		button.text = Names.SAUCES[sauce]

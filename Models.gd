@@ -398,20 +398,25 @@ class Customer:
 		return pizza
 	
 	func pickSizeForPizza():
-		var randomSize = rng.randi() % Constants.PIZZA_SIZES.size()
-		return Constants.PIZZA_SIZES.values()[randomSize]
+		var availableSizes = Player.Shop.AvailableSizes
+		var randomSize = rng.randi() % availableSizes.size()
+		return availableSizes[randomSize]
 	
 	func pickSauceForPizza():
-		var randomSauce = rng.randi() % Constants.SAUCES.size()
-		return Constants.SAUCES.values()[randomSauce]
+		var availableSauces = Player.Shop.AvailableSauces
+		var randomSauce = rng.randi() % availableSauces.size()
+		return availableSauces[randomSauce]
 	
 	func pickCheeseForPizza():
-		var randomCheese = rng.randi() % Constants.CHEESES.size()
-		return Constants.CHEESES.values()[randomCheese]
+		var availableCheeses = Player.Shop.AvailableCheeses
+		var randomCheese = rng.randi() % availableCheeses.size()
+		return availableCheeses[randomCheese]
 	
 	func pickToppingsForPizza():
-		if rng.randi() % 3 == 1: 
+		if rng.randi() % 5 == 1: 
 			return []
+			
+		var availableToppings = Player.Shop.AvailableToppings
 		
 		var numToppings = rng.randi() % 8 - 3
 		
@@ -420,7 +425,7 @@ class Customer:
 		var toppings = []
 		
 		for i in numToppings:
-			var randomTopping = Constants.TOPPINGS.values()[rng.randi() % Constants.TOPPINGS.size()]
+			var randomTopping = availableToppings.values()[rng.randi() % availableToppings.size()]
 			if !toppings.has(randomTopping):
 				toppings.append(randomTopping)
 			

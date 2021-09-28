@@ -9,10 +9,10 @@ class PizzaShop:
 	var Level = 1
 	var OpenOrders = []
 	var CompletedOrders = []
-	var AvailableToppings = Constants.TOPPINGS
-	var AvailablePans = Constants.PIZZA_SIZES
-	var AvailableSauces = Constants.SAUCES
-	var AvailableCheeses = Constants.CHEESES
+	var AvailableToppings = [Constants.TOPPINGS.olives, Constants.TOPPINGS.bananaPeppers, Constants.TOPPINGS.basil]
+	var AvailableSizes = [Constants.PIZZA_SIZES.six, Constants.PIZZA_SIZES.twelve]
+	var AvailableSauces = [Constants.SAUCES.marinara, Constants.SAUCES.none]
+	var AvailableCheeses = [Constants.CHEESES.normal, Constants.CHEESES.none]
 	var Ovens = [Models.Oven.new()]
 	var Pizzas = []
 	var Balance = 0
