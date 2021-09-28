@@ -21,8 +21,14 @@ func setupOrdersList():
 	for order in openOrders:
 		$open_orders/HBoxContainer/ItemList.add_item("order-%s" % order.receipt.id)
 		
+func refreshPizzasList():
+	pizzas = []
+	for p in Player.Shop.Pizzas:
+		if !p.isAttachedToOrder:
+			pizzas.append(p)
+
 func setupPizzasList():
-	pizzas = Player.Shop.Pizzas
+	refreshPizzasList()
 	$pizzas/HBoxContainer/ItemList.clear()
 	$pizzas/HBoxContainer/RichTextLabel.text = ""
 	for pizza in pizzas:
@@ -41,6 +47,7 @@ func fulfillSelectedOrder(pizza):
 		print("pizza doesn't match order!")
 		return
 		
+	selectedPizza.attachToOrder()
 	selectedOrder.fulfill([pizza])
 	updateSelectedOrderInfo()
 	Player.Shop.orderCompleted(selectedOrder)
@@ -85,8 +92,9 @@ func _on_fulfill_pressed():
 	elif selectedPizza == null:
 		print("no pizza to fulfill order with")
 		return
-		
+	
 	fulfillSelectedOrder(selectedPizza)
+	setupPizzasList()
 
 func _on_cut_pizza_button_pressed():
 	if !selectedPizza: return

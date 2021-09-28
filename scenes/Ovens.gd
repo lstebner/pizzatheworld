@@ -5,6 +5,7 @@ signal leave
 var oven = Player.Shop.Ovens[0]
 var itemSlots = []
 var selectedPizza = null
+var pizzas = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -32,20 +33,23 @@ func refreshPizzasList():
 	var selectedItems = $PizzasList.get_selected_items()
 	$PizzaInfo.text = ""
 	$PizzasList.clear()
-	
+	pizzas = []
 	for pizza in Player.Shop.Pizzas:
+		if !pizza.isBaked():
+			pizzas.append(pizza)
+			
+	for pizza in pizzas:
 		var bakedIndicator = "o"
 		if pizza.isBaked():
 			bakedIndicator = "x"
 		elif pizza.isBaking():
 			bakedIndicator = "-"
 			
-		if !pizza.isBoxed():
-			$PizzasList.add_item(bakedIndicator + " " + pizza.getShortDescription())
+		$PizzasList.add_item(bakedIndicator + " " + pizza.getShortDescription())
 	
-	if selectedItems.size() > 0:
-		$PizzasList.select(selectedItems[0])
-		refreshPizzaInfo()
+	#if selectedItems.size() > 0:
+		#$PizzasList.select(selectedItems[0])
+		#refreshPizzaInfo()
 
 func adjustTargetTemp(newTemp):
 	oven.targetTemp = newTemp
@@ -128,7 +132,7 @@ func _on_item_slot_baking_complete(slot):
 	pass
 
 func _on_pizzas_list_item_selected(index):
-	selectedPizza = Player.Shop.Pizzas[index]
+	selectedPizza = pizzas[index]
 	
 	if selectedPizza:
 		$PizzaInfo.text = selectedPizza.getDescriptionString()

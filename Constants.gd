@@ -121,4 +121,5 @@ var PRICES = {
 }
 
 const INITIAL_POPULATION = 7900000000
-const BIRTHS_PER_DAY = 385000 # believe it or not, these numbers are true to real life
+const DEATHS_PER_DAY = 178200
+const BIRTHS_PER_DAY = 385000 - DEATHS_PER_DAY # believe it or not, these numbers are true to real life

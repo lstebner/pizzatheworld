@@ -10,7 +10,7 @@ class Pizza:
 	var status = Constants.PIZZA_STATUSES.ordered
 	var isCut = false
 	var isBoxed = false
-	var forDelivery = false
+	var isAttachedToOrder = false
 	var bakeTime = 0
 	var numCuts = 0
 	
@@ -133,6 +133,9 @@ class Pizza:
 		desc += "cuts: %s\n" % numCuts
 		
 		return desc
+		
+	func attachToOrder():
+		isAttachedToOrder = true
 
 class Receipt:
 	var id = -1
@@ -301,7 +304,7 @@ class Customer:
 	
 	func _init():
 		rng.randomize()
-		name = Constants.CUSTOMER_NAMES[rng.randi() % Constants.CUSTOMER_NAMES.size()]
+		name = Constants.CUSTOMER_NAMES[rng.randi_range(0, Constants.CUSTOMER_NAMES.size() - 1)]
 	
 	func _update(delta):
 		if currentState != nextState:
